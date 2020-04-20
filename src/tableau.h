@@ -20,9 +20,16 @@
 #include <stdlib.h>
 #include <time.h>
 
+/*! \struct s_pion
+ * Structure qui défini les pions par leur valeur et leur appartenance
+ */
+typedef struct{
+	int valeur; /*!< la valeur du pion : rien si case vide, 1 si carré, 2 si triangle, 3 si losange, 4 si rond */
+	int joueur; /*!< le joueur à qui appartient le pion : 0 si personne, 1 si joueur1, 2 si joueur2*/
+} s_pion;
 
 /**
- * \fn int** creerTabEntier2D(int n)
+ * \fn s_pion** creerTab2D(int n)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -35,11 +42,11 @@
  * \return tab l'adresse de la première case du tableau crée
  *
  */
-int** creerTabEntier2D(int n);
+s_pion** creerTab2D(int n);
 
 
 /**
- *\fn void initTab(int** tab, int n)
+ *\fn void initTab(s_pion** tab, int n)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -52,10 +59,10 @@ int** creerTabEntier2D(int n);
  *\param n la taille du plateau
  *
  */
-void initTab(int** tab, int n);
+void initTab(s_pion** tab, int n);
 
 /**
- *\fn void initLigne(int** tab, int n, int ligne)
+ *\fn void initLigne(s_pion** tab, int n, int ligne, int joueur)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -67,12 +74,13 @@ void initTab(int** tab, int n);
  *\param tab le plateau de jeu
  *\param n la taille du plateau
  *\param ligne la ligne sur laquelle on place les pions
+ *\param joueur la joueur à qui appartient les pions de cette ligne
  *
  */
-void initLigne(int** tab, int n, int ligne);
+void initLigne(s_pion** tab, int n, int ligne, int joueur);
 
 /**
- *\fn void afficherTab(int** tab, int n)
+ *\fn void afficherTab(s_pion** tab, int n)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -85,7 +93,7 @@ void initLigne(int** tab, int n, int ligne);
  *\param n la taille du tableau
  *
  */
-void afficherTab(int** tab, int n);
+void afficherTab(s_pion** tab, int n);
 
 
 #endif

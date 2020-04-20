@@ -12,13 +12,17 @@
 
 // Inclusion des librairies
 #include "tableau.h"
+#include "jeu.h"
 
 //Code de la fonction
 
 int main(int argc, char const *argv[]) {
-  int** plateau; //plateau de jeu
-  plateau = creerTabEntier2D(10);
+  s_pion** plateau; //plateau de jeu
+  plateau = creerTab2D(10);
+  printf("ok création\n");
   initTab(plateau, 10);
+  printf("ok initialisation\n");
   afficherTab(plateau, 10);
+  joueurJoue(plateau, 10, 1);
   return 0;
 }
