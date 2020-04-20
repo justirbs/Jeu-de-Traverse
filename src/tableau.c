@@ -41,7 +41,7 @@ void initTab(int** tab, int n){
   srand(time(NULL));
   for(i=0; i<n; i++){
     for(j=0; j<n; j++){
-      tab[i][j] = '_';
+      tab[i][j] = ' ';
     }
   }
   initLigne(tab, n, 0);
@@ -51,16 +51,16 @@ void initTab(int** tab, int n){
 
 void initLigne(int** tab, int n, int ligne){
   //Insertion des ■
-  tab[ligne][1] = 254;
+  tab[ligne][1] = '■';
   tab[ligne][n-2] = tab[0][1];
   //Insertion des ▲
-  tab[ligne][2] = 30;
+  tab[ligne][2] = '▲';
   tab[ligne][n-3] = tab[0][2];
   //Insertion des ♦
-  tab[ligne][3] = 4;
+  tab[ligne][3] = '♦';
   tab[ligne][n-4] = tab[0][3];
   //Insertion des •
-  tab[ligne][4] = 7;
+  tab[ligne][4] = '•';
   tab[ligne][n-5] = tab[0][4];
 }
 
@@ -68,10 +68,19 @@ void initLigne(int** tab, int n, int ligne){
 void afficherTab(int** tab, int n){
   int i; //iterrateur de boucle
   int j; //iterrateur de boucle
+  int k;
   for(i=0; i<n; i++){
+    for(k=0; k<n; k++){
+      printf("----");
+    }
+    printf("-\n|");
     for(j=0; j<n; j++){
-      printf("%c ", tab[i][j]);
+      printf(" %c |", tab[i][j]);
     }
     printf("\n");
   }
+  for(k=0; k<n; k++){
+    printf("----");
+  }
+  printf("-\n|");
 }
