@@ -19,10 +19,9 @@
 int main(int argc, char const *argv[]) {
   s_pion** plateau; //plateau de jeu
   plateau = creerTab2D(10);
-  printf("ok création\n");
   initTab(plateau, 10);
-  printf("ok initialisation\n");
   afficherTab(plateau, 10);
   joueurJoue(plateau, 10, 1);
+  afficherTab(plateau, 10);
   return 0;
 }
