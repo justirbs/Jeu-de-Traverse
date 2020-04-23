@@ -96,4 +96,21 @@ void initLigne(s_pion** tab, int n, int ligne, int joueur);
 void afficherTab(s_pion** tab, int n);
 
 
+/**
+ * \fn void enleveCroix(s_pion** tab, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 23 avril 2020
+ *
+ * \brief permet d'enlever les croix dans le plateau
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param n la taille du plateau
+ *
+ */
+void enleveCroix(s_pion** tab, int n);
+
+
 #endif

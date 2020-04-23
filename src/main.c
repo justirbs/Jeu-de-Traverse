@@ -23,5 +23,6 @@ int main(int argc, char const *argv[]) {
   afficherTab(plateau, 10);
   joueurJoue(plateau, 10, 1);
   afficherTab(plateau, 10);
+  free(plateau);
   return 0;
 }

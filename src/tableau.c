@@ -90,7 +90,11 @@ void afficherTab(s_pion** tab, int n){
     for(j=0; j<n; j++){
       if(tab[i][j].valeur == 0){
         printf("   |");
-      } else printf(" %d |", tab[i][j].valeur);
+      } else {
+        if (tab[i][j].valeur == -1){
+          printf(" X |");
+        } else printf(" %d |", tab[i][j].valeur);
+      }
     }
     printf(" %d\n", i);
   }
@@ -98,4 +102,17 @@ void afficherTab(s_pion** tab, int n){
     printf("----");
   }
   printf("-\n");
+}
+
+
+void enleveCroix(s_pion** tab, int n){
+  int i;
+  int j;
+  for(i=0; i<n; i++){
+    for(j=0; j<n; j++){
+      if(tab[i][j].valeur == -1){
+        tab[i][j].valeur = 0;
+      }
+    }
+  }
 }

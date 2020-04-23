@@ -34,7 +34,7 @@
 void joueurJoue(s_pion** tab, int n, int joueur);
 
 /**
- * \fn int deplacement(s_pion** tab, int n, int ligne, int colone)
+ * \fn int deplacement(s_pion** tab, int n, int ligne, int colone, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -47,19 +47,21 @@ void joueurJoue(s_pion** tab, int n, int joueur);
  * \param n la taille du plateau
  * \param ligne la ligne de l'emplacement du pion
  * \param colone la colone de l'emplacement du pion
+ * \param joueur le joueur qui joue
  * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-int deplacement(s_pion** tab, int n, int ligne, int colone);
+int deplacement(s_pion** tab, int n, int ligne, int colone, int joueur);
+
 
 /**
- * \fn int deplacementCarre(s_pion** tab, int n, int ligne, int colone)
+ * \fn int deplacementsPossibles(s_pion** tab, int n, int ligne, int colone)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion carré
+ * \brief permet de montrer aux joueurs les déplacements possibles
  *
  *
  * \param tab le plateau de jeu
@@ -69,157 +71,88 @@ int deplacement(s_pion** tab, int n, int ligne, int colone);
  * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-int deplacementCarre(s_pion** tab, int n, int ligne, int colone);
+int deplacementsPossibles(s_pion** tab, int n, int ligne, int colone);
 
 
 /**
- * \fn void deplacementHaut(s_pion** tab, int ligne, int colone, int valeur)
+ * \fn int deplacementsPossiblesCarre(s_pion** tab, int n, int ligne, int colone)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion vers le haut
+ * \brief permet de montrer aux joueurs les déplacements possibles pour un carré
  *
  *
  * \param tab le plateau de jeu
+ * \param n la taille du plateau
  * \param ligne la ligne de l'emplacement du pion
  * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
+ * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-void deplacementHaut(s_pion** tab, int ligne, int colone, int valeur);
+int deplacementsPossiblesCarre(s_pion** tab, int n, int ligne, int colone);
 
 
 /**
- * \fn void deplacementBas(s_pion** tab, int ligne, int colone, int valeur)
+ * \fn int deplacementsPossiblesTriangle(s_pion** tab, int n, int ligne, int colone)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion vers le bas
+ * \brief permet de montrer aux joueurs les déplacements possibles pour un triangle
  *
  *
  * \param tab le plateau de jeu
+ * \param n la taille du plateau
  * \param ligne la ligne de l'emplacement du pion
  * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
+ * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-void deplacementBas(s_pion** tab, int ligne, int colone, int valeur);
+int deplacementsPossiblesTriangle(s_pion** tab, int n, int ligne, int colone);
 
 
 /**
- * \fn void deplacementDroite(s_pion** tab, int ligne, int colone, int valeur)
+ * \fn int deplacementsPossiblesLosange(s_pion** tab, int n, int ligne, int colone)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion vers la droite
+ * \brief permet de montrer aux joueurs les déplacements possibles pour un losange
  *
  *
  * \param tab le plateau de jeu
+ * \param n la taille du plateau
  * \param ligne la ligne de l'emplacement du pion
  * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
+ * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-void deplacementDroite(s_pion** tab, int ligne, int colone, int valeur);
+int deplacementsPossiblesLosange(s_pion** tab, int n, int ligne, int colone);
 
 
 /**
- * \fn void deplacementGauche(s_pion** tab, int ligne, int colone, int valeur)
+ * \fn int deplacementsPossiblesCercle(s_pion** tab, int n, int ligne, int colone)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion vers la gauche
+ * \brief permet de montrer aux joueurs les déplacements possibles pour un cercle
  *
  *
  * \param tab le plateau de jeu
+ * \param n la taille du plateau
  * \param ligne la ligne de l'emplacement du pion
  * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
+ * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-void deplacementGauche(s_pion** tab, int ligne, int colone, int valeur);
-
-/**
- * \fn void deplacementHautD(s_pion** tab, int ligne, int colone, int valeur)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de déplacer un pion vers en haut à droite
- *
- *
- * \param tab le plateau de jeu
- * \param ligne la ligne de l'emplacement du pion
- * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
- *
- */
-void deplacementHautD(s_pion** tab, int ligne, int colone, int valeur);
+int deplacementsPossiblesCercle(s_pion** tab, int n, int ligne, int colone);
 
 
-/**
- * \fn void deplacementHautG(s_pion** tab, int ligne, int colone, int valeur)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de déplacer un pion vers en haut à gauche
- *
- *
- * \param tab le plateau de jeu
- * \param ligne la ligne de l'emplacement du pion
- * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
- *
- */
-void deplacementHautG(s_pion** tab, int ligne, int colone, int valeur);
-
-
-/**
- * \fn void deplacementBasD(s_pion** tab, int ligne, int colone, int valeur)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de déplacer un pion vers en bas à droite
- *
- *
- * \param tab le plateau de jeu
- * \param ligne la ligne de l'emplacement du pion
- * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
- *
- */
-void deplacementBasD(s_pion** tab, int ligne, int colone, int valeur);
-
-
-/**
- * \fn void deplacementBasG(s_pion** tab, int ligne, int colone, int valeur)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de déplacer un pion vers en bas à gauche
- *
- *
- * \param tab le plateau de jeu
- * \param ligne la ligne de l'emplacement du pion
- * \param colone la colone de l'emplacement du pion
- * \param valeur la valeur du pion
- *
- */
-void deplacementBasG(s_pion** tab, int ligne, int colone, int valeur);
 
 #endif
