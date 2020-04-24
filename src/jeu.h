@@ -16,6 +16,24 @@
 // Inclusion des librairies
 #include "tableau.h"
 
+
+/**
+ * \fn void partieJJ(s_pion** tab, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 24 avril 2020
+ *
+ * \brief permet de dérouler une partie entre deux joueurs
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param n la taille du plateau
+ *
+ */
+void partieJJ(s_pion** tab, int n);
+
+
 /**
  * \fn void joueurJoue(s_pion** tab, int n, int joueur)
  *
@@ -40,7 +58,7 @@ void joueurJoue(s_pion** tab, int n, int joueur);
  * \version 0.1
  * \date 23 avril 2020
  *
- * \brief permet de déplacer un pion
+ * \brief permet de gérer les déplacements possibles d'un pion
  *
  *
  * \param tab le plateau de jeu
@@ -52,6 +70,27 @@ void joueurJoue(s_pion** tab, int n, int joueur);
  *
  */
 int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur);
+
+
+/**
+ * \fn void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 24 avril 2020
+ *
+ * \brief permet de déplacer un pion
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param ligne1 la ligne de l'emplacement actuel du pion
+ * \param colonne1 la colonne de l'emplacement actuel du pion
+ * \param joueur le joueur qui joue
+ * \param ligne2 la ligne de l'emplacement futur du pion
+ * \param colonne2 la colonne de l'emplacement futur du pion
+ *
+ */
+void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2);
 
 
 /**

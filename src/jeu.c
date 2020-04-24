@@ -16,6 +16,19 @@
 
 // Codes des fonctions
 
+
+void partieJJ(s_pion** tab, int n){
+  system("clear");
+  afficherTab(tab,n);
+  printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
+  joueurJoue(tab, n, 1);
+  system("clear");
+  afficherTab(tab,n);
+  printf("\nC'est au tour du Joueur 2 (en bas) de jouer :\n\n");
+  joueurJoue(tab, n, 2);
+}
+
+
 void joueurJoue(s_pion** tab, int n, int joueur){
   int ligne; //la ligne du pion à déplacer
   int colonne; //la colonne du pion à déplacer
@@ -36,41 +49,45 @@ void joueurJoue(s_pion** tab, int n, int joueur){
 
 int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur){
 	int estDeplace; //variable booléenne qui indique si le pion est déplacé
-	int ligne2;
-	int colonne2;
-  int estSaut;
-  int estSimple;
-  int choix;
-  int aContinue;
-  aContinue = 1;
+	int ligne2; //la ligne de la future case du pion s'il est déplacé
+	int colonne2; //la colonne de la future case du pion s'il est déplacé
+  int estSaut; //variable booléenne qui indique si un déplacement avec saut est possible
+  int estSimple; //variable booléenne qui indique si un déplacement simple est possible
+  int choix; //choix de l'utilisateur
   estSimple = deplacementsPossiblesSimples(tab, n, ligne, colonne);
   estSaut = deplacementPossiblesSaut(tab, n, ligne, colonne);
 	estDeplace = 0;
+  //on regarde si un déplacement est possible
 	if ( estSimple || estSaut) {
     estDeplace = 1;
+    system("clear");
     afficherTab(tab,n);
 		do {
 			do {
 				printf("Veuillez entrer la ligne puis la colonne de la case où vous voulez déplacer votre pion : \n");
 				ligne2 = saisirEntier();
 				colonne2 = saisirEntier();
+        //la future case doit faire partie du plateau
 			} while((ligne2 < 0 || ligne2 >= n) || (colonne2 < 0 || colonne2 >= n));
+      //la future case doit être un déplacement possible
 		} while(tab[ligne2][colonne2].valeur != -1);
-    tab[ligne2][colonne2].valeur = tab[ligne][colonne].valeur;
-    tab[ligne2][colonne2].joueur = joueur;
-    tab[ligne][colonne].valeur = 0;
-    tab[ligne][colonne].joueur = 0;
+    deplacerPion(tab, ligne, colonne, joueur, ligne2, colonne2);
     enleveCroix(tab, n);
+    //dans le cas où le pion vient d'effectuer un déplacement avec saut
     if ( abs(ligne2 - ligne) > 1 || abs(colonne2 - colonne) >1){
-  		while (deplacementPossiblesSaut(tab, n, ligne2, colonne2)  &&  aContinue == 1){
+      estSaut = deplacementPossiblesSaut(tab, n, ligne2, colonne2);
+      choix = 1;
+  		while (estSaut &&  choix == 1){
         ligne = ligne2;
         colonne = colonne2;
+        system("clear");
         afficherTab(tab, n);
+        //on demande à l'utilisateur quand il veut arrêter ses sauts successifs pour éviter un déplacement à l'infini
         printf("Vous avez la possibilité d'effectuer des sauts successifs\nSi vous voulez continuer, entrez 1. Sinon, entrez 0.\n");
         do {
           choix = saisirEntier();
         } while (choix != 1 && choix != 0);
-        if(choix == 1){
+        if (choix == 1){
           do {
             do {
               printf("Veuillez entrer la ligne puis la colonne de la case où vous voulez déplacer votre pion : \n");
@@ -78,16 +95,23 @@ int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur){
               colonne2 = saisirEntier();
             } while((ligne2 < 0 || ligne2 >= n) || (colonne2 < 0 || colonne2 >= n));
           } while(tab[ligne2][colonne2].valeur != -1);
-          tab[ligne2][colonne2].valeur = tab[ligne][colonne].valeur;
-          tab[ligne2][colonne2].joueur = joueur;
-          tab[ligne][colonne].valeur = 0;
-          tab[ligne][colonne].joueur = 0;
-          enleveCroix(tab, n);
-        } else aContinue = 0;
+          deplacerPion(tab, ligne, colonne, joueur, ligne2, colonne2);
+        }
+        enleveCroix(tab, n);
+        estSaut = deplacementPossiblesSaut(tab, n, ligne2, colonne2);
       }
+      enleveCroix(tab, n);
   	}
   }
 	return(estDeplace);
+}
+
+
+void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2){
+  tab[ligne2][colonne2].valeur = tab[ligne1][colonne1].valeur;
+  tab[ligne2][colonne2].joueur = joueur;
+  tab[ligne1][colonne1].valeur = 0;
+  tab[ligne1][colonne1].joueur = 0;
 }
 
 

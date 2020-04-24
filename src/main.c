@@ -22,10 +22,8 @@ int main(int argc, char const *argv[]) {
   plateau = creerTab2D(10);
   initTab(plateau, 10);
   for(i=0; i<10; i++){
-    afficherTab(plateau, 10);
-    joueurJoue(plateau, 10, 1);
+    partieJJ(plateau, 10);
   }
-  afficherTab(plateau, 10);
   free(plateau);
   return 0;
 }
