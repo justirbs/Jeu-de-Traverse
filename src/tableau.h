@@ -113,4 +113,5 @@ void afficherTab(s_pion** tab, int n);
 void enleveCroix(s_pion** tab, int n);
 
 
+
 #endif

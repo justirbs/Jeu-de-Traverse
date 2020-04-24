@@ -88,12 +88,27 @@ void afficherTab(s_pion** tab, int n){
     }
     printf("-\n|");
     for(j=0; j<n; j++){
-      if(tab[i][j].valeur == 0){
-        printf("   |");
-      } else {
-        if (tab[i][j].valeur == -1){
-          printf(" X |");
-        } else printf(" %d |", tab[i][j].valeur);
+      switch (tab[i][j].joueur){
+        case 0 :
+          if(tab[i][j].valeur == 0){
+            printf("   |");
+          } else printf(" X |");
+          break;
+        case 1 :
+          printf("\033[0;31m");
+          printf(" %d", tab[i][j].valeur);
+          printf("\033[0m");
+          printf(" |");
+          break;
+        case 2 :
+          printf("\033[0;34m");
+          printf(" %d", tab[i][j].valeur);
+          printf("\033[0m");
+          printf(" |");
+          break;
+        default :
+          printf("erreur\n");
+          break;
       }
     }
     printf(" %d\n", i);
