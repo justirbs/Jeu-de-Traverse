@@ -28,6 +28,14 @@ typedef struct{
 	int joueur; /*!< le joueur à qui appartient le pion : 0 si personne, 1 si joueur1, 2 si joueur2*/
 } s_pion;
 
+/*! \struct s_coord
+ * Structure qui défini les coordonnées d'un pion selon sa ligne et sa colonne
+ */
+typedef struct{
+	int ligne; /*!< le numéro de ligne du pion */
+	int colonne; /*!< le numéro de colonne du pion */
+} s_coord;
+
 /**
  * \fn s_pion** creerTab2D(int n)
  *
@@ -43,6 +51,24 @@ typedef struct{
  *
  */
 s_pion** creerTab2D(int n);
+
+
+/**
+ * \fn s_pion*** creerTab3D(int n, int m)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 27 avril 2020
+ *
+ * \brief permet de créer un tableau à trois dimensions
+ *
+ *
+ * \param n la taille des deux premières dimensions du tableau
+ * \param m la taille de la troisième dimension du tableau
+ * \return tab l'adresse de la première case du tableau crée
+ *
+ */
+s_pion*** creerTab3D(int n, int m);
 
 
 /**
@@ -94,6 +120,22 @@ void initLigne(s_pion** tab, int n, int ligne, int joueur);
  *
  */
 void afficherTab(s_pion** tab, int n);
+
+
+/**
+ *\fn char pion(int valeur)
+ *
+ *\author Justine Ribas <ribasjusti@eisti.eu>
+ *\version 0.1
+ *\date 27 avril 2020
+ *
+ *\brief permet de donner le symbole d'un pion selon sa valeur
+ *
+ *
+ *\param valeur la valeur du pion
+ *
+ */
+char pion(int valeur);
 
 
 /**

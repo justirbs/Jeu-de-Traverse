@@ -15,10 +15,12 @@
 
 // Inclusion des librairies
 #include "tableau.h"
+#include "saisie.h"
+#include "deplacement.h"
 
 
 /**
- * \fn void partieJJ(s_pion** tab, int n)
+ * \fn void partieJJ(void)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -27,11 +29,8 @@
  * \brief permet de dérouler une partie entre deux joueurs
  *
  *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- *
  */
-void partieJJ(s_pion** tab, int n);
+void partieJJ(void);
 
 
 /**
@@ -51,8 +50,27 @@ void partieJJ(s_pion** tab, int n);
  */
 void joueurJoue(s_pion** tab, int n, int joueur);
 
+
 /**
- * \fn int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur)
+ * \fn s_coord choixCase(s_pion** tab, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 27 avril 2020
+ *
+ * \brief permet de choisir une case dans laquelle déplacer son pion
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param n la taille du plateau
+ * \return les coordonées de la nouvelle case
+ *
+ */
+s_coord choixCase(s_pion** tab, int n);
+
+
+/**
+ * \fn int tourJoueur(s_pion** tab, int n, s_coord laCase, int joueur)
  *
  * \author Vincent Donney et Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -63,235 +81,50 @@ void joueurJoue(s_pion** tab, int n, int joueur);
  *
  * \param tab le plateau de jeu
  * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
+ * \param laCase les coordonnées de la laCase choisie
  * \param joueur le joueur qui joue
  * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur);
+int tourJoueur(s_pion** tab, int n, s_coord laCase, int joueur);
 
 
 /**
- * \fn void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 24 avril 2020
- *
- * \brief permet de déplacer un pion
- *
- *
- * \param tab le plateau de jeu
- * \param ligne1 la ligne de l'emplacement actuel du pion
- * \param colonne1 la colonne de l'emplacement actuel du pion
- * \param joueur le joueur qui joue
- * \param ligne2 la ligne de l'emplacement futur du pion
- * \param colonne2 la colonne de l'emplacement futur du pion
- *
- */
-void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2);
-
-
-/**
- * \fn int deplacementsPossiblesSimples(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles simples
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSimples(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementPossiblesSaut(s_pion** tab, int n, int ligne, int colonne)
+ * \fn int aGagne(s_pion** tab, int n, int tour)
  *
  * \author Vincent Donney <donneyvinc@eisti.eu>
  * \version 0.1
- * \date 23 avril 2020
+ * \date 26 avril 2020
  *
- * \brief permet de montrer aux joueurs les déplacements possibles avec saut
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementPossiblesSaut(s_pion** tab, int n, int ligne, int colonne);
-
-
-
-/**
- * \fn int deplacementsPossiblesSimplesCarre(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles simples pour un carré
+ * \brief permet de vérifier si un joueur a gagné
  *
  *
  * \param tab le plateau de jeu
  * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
+ * \param tour le numéro du tour en cours
+ * \return 1 si un joueur a gagné, 0 sinon
  *
  */
-int deplacementsPossiblesSimplesCarre(s_pion** tab, int n, int ligne, int colonne);
+int aGagne(s_pion **tab, int n, int tour);
 
 
 /**
- * \fn int deplacementsPossiblesSimplesTriangle(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles simples pour un triangle
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSimplesTriangle(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSimplesLosange(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles simples pour un losange
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSimplesLosange(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSimplesCercle(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles simples pour un cercle
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSimplesCercle(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSautCarre(s_pion** tab, int n, int ligne, int colonne)
+ * \fn int matchNul(s_pion*** jeu, int n, int tour)
  *
  * \author Vincent Donney <donneyvinc@eisti.eu>
  * \version 0.1
- * \date 23 avril 2020
+ * \date 26 avril 2020
  *
- * \brief permet de montrer aux joueurs les déplacements possibles avec saut pour un carré
+ * \brief permet de vérifier si il y a match nul
  *
  *
- * \param tab le plateau de jeu
+ * \param jeu l'ensemble des plateaux de jeu depuis le début de la partie
  * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
+ * \param tour le numéro du tour en cours
+ * \return 1 si il y a match nul, 0 sinon
  *
  */
-int deplacementsPossiblesSautCarre(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSautTriangle(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Vincent Donney <donneyvinc@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles avec saut pour un triangle
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSautTriangle(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSautLosange(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Vincent Donney <donneyvinc@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles avec saut pour un losange
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSautLosange(s_pion** tab, int n, int ligne, int colonne);
-
-
-/**
- * \fn int deplacementsPossiblesSautCercle(s_pion** tab, int n, int ligne, int colonne)
- *
- * \author Vincent Donney <donneyvinc@eisti.eu>
- * \version 0.1
- * \date 23 avril 2020
- *
- * \brief permet de montrer aux joueurs les déplacements possibles avec saut pour un cercle
- *
- *
- * \param tab le plateau de jeu
- * \param n la taille du plateau
- * \param ligne la ligne de l'emplacement du pion
- * \param colonne la colonne de l'emplacement du pion
- * \return 1 si le déplacement est possible, 0 si il est impossible
- *
- */
-int deplacementsPossiblesSautCercle(s_pion** tab, int n, int ligne, int colonne);
+int matchNul(s_pion*** jeu, int n, int tour);
 
 
 #endif

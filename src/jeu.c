@@ -12,74 +12,87 @@
 
 // Inclusion des librairies
 #include "jeu.h"
-#include "saisie.h"
 
 // Codes des fonctions
 
 
-void partieJJ(s_pion** tab, int n){
-  system("clear");
-  afficherTab(tab,n);
-  printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
-  joueurJoue(tab, n, 1);
-  system("clear");
-  afficherTab(tab,n);
-  printf("\nC'est au tour du Joueur 2 (en bas) de jouer :\n\n");
-  joueurJoue(tab, n, 2);
+void partieJJ(void){
+  /*s_pion*** jeu;*/ //l'ensembles des plateaux du jeu
+  s_pion** plateau; //le plateau initial
+  int tour;
+  int n;
+  n = 10;
+  tour = 0;
+  plateau = creerTab2D(n);
+  initTab(plateau, n);
+  do {
+    system("clear");
+    afficherTab(plateau,n);
+    printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
+    joueurJoue(plateau, n, 1);
+    tour ++;
+    if (!aGagne(plateau, n, tour)  &&  !matchNul(jeu, n, tour){
+      system("clear");
+      afficherTab(plateau,n);
+      printf("\nC'est au tour du Joueur 2 (en bas) de jouer :\n\n");
+      joueurJoue(plateau, n, 2);
+      tour ++;
+    }
+  } while(aGagne(plateau, n, tour)  ||  matchNul(jeu, n, tour));
+  free(plateau);
 }
 
 
 void joueurJoue(s_pion** tab, int n, int joueur){
-  int ligne; //la ligne du pion à déplacer
-  int colonne; //la colonne du pion à déplacer
+  s_coord laCase;
+  int estPossible; //variable booléenne qui indique si un déplacement est possible
+  int aContinue; //variable bouléenne qui indique ou non si le joueur continue de chercher un pion jouable
+  aContinue = 1;
   do {
     do {
       do {
-        printf("Veuillez entrer la case du pion que vous voulez déplacer (ligne puis colonne) : \n");
-        ligne = saisirEntier();
-        colonne = saisirEntier();
-        //la case doit exister sur le plateau
-      } while((ligne < 0 || ligne >= n) || (colonne < 0 || colonne >= n));
-      //la case doit contenir un pion du joueur
-    } while(tab[ligne][colonne].joueur != joueur);
+        printf("Veuillez entrer la laCase du pion que vous voulez déplacer (laCase.ligne puis laCase.colonne) : \n");
+        laCase.ligne = saisirEntier();
+        laCase.colonne = saisirEntier();
+        //la laCase doit exister sur le plateau
+      } while((laCase.ligne < 0 || laCase.ligne >= n) || (laCase.colonne < 0 || laCase.colonne >= n));
+      //la laCase doit contenir un pion du joueur
+    } while(tab[laCase.ligne][laCase.colonne].joueur != joueur);
     //le pion doit pouvoir se déplacer
-  } while(!deplacement(tab, n, ligne, colonne, joueur));
+    estPossible = tourJoueur(tab, n, laCase, joueur);
+    if(estPossible == 0){
+      printf("Votre pion ne peut pas être déplacé...\nSi vous voulez en essayer un autre, écrivez 1. Sinon écrivez 0.\n");
+      do {
+        aContinue = saisirEntier();
+      } while (aContinue != 1  &&  aContinue != 0);
+    }
+  } while(aContinue == 1);
 }
 
 
-int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur){
+int tourJoueur(s_pion** tab, int n, s_coord laCase, int joueur){
 	int estDeplace; //variable booléenne qui indique si le pion est déplacé
-	int ligne2; //la ligne de la future case du pion s'il est déplacé
-	int colonne2; //la colonne de la future case du pion s'il est déplacé
+  s_coord laCase2; //la future laCase du pion si il est déplacé
   int estSaut; //variable booléenne qui indique si un déplacement avec saut est possible
   int estSimple; //variable booléenne qui indique si un déplacement simple est possible
   int choix; //choix de l'utilisateur
-  estSimple = deplacementsPossiblesSimples(tab, n, ligne, colonne);
-  estSaut = deplacementPossiblesSaut(tab, n, ligne, colonne);
+  estSimple = deplacementsPossiblesSimples(tab, n, laCase);
+  estSaut = deplacementPossiblesSaut(tab, n, laCase);
 	estDeplace = 0;
   //on regarde si un déplacement est possible
 	if ( estSimple || estSaut) {
     estDeplace = 1;
     system("clear");
     afficherTab(tab,n);
-		do {
-			do {
-				printf("Veuillez entrer la ligne puis la colonne de la case où vous voulez déplacer votre pion : \n");
-				ligne2 = saisirEntier();
-				colonne2 = saisirEntier();
-        //la future case doit faire partie du plateau
-			} while((ligne2 < 0 || ligne2 >= n) || (colonne2 < 0 || colonne2 >= n));
-      //la future case doit être un déplacement possible
-		} while(tab[ligne2][colonne2].valeur != -1);
-    deplacerPion(tab, ligne, colonne, joueur, ligne2, colonne2);
+    laCase2 = choixCase(tab, n);
+    deplacerPion(tab, laCase, joueur, laCase2);
     enleveCroix(tab, n);
     //dans le cas où le pion vient d'effectuer un déplacement avec saut
-    if ( abs(ligne2 - ligne) > 1 || abs(colonne2 - colonne) >1){
-      estSaut = deplacementPossiblesSaut(tab, n, ligne2, colonne2);
+    if ( abs(laCase2.ligne - laCase.ligne) > 1 || abs(laCase2.colonne - laCase.colonne) >1){
+      estSaut = deplacementPossiblesSaut(tab, n, laCase2);
       choix = 1;
   		while (estSaut &&  choix == 1){
-        ligne = ligne2;
-        colonne = colonne2;
+        laCase = laCase2;
         system("clear");
         afficherTab(tab, n);
         //on demande à l'utilisateur quand il veut arrêter ses sauts successifs pour éviter un déplacement à l'infini
@@ -88,17 +101,11 @@ int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur){
           choix = saisirEntier();
         } while (choix != 1 && choix != 0);
         if (choix == 1){
-          do {
-            do {
-              printf("Veuillez entrer la ligne puis la colonne de la case où vous voulez déplacer votre pion : \n");
-              ligne2 = saisirEntier();
-              colonne2 = saisirEntier();
-            } while((ligne2 < 0 || ligne2 >= n) || (colonne2 < 0 || colonne2 >= n));
-          } while(tab[ligne2][colonne2].valeur != -1);
-          deplacerPion(tab, ligne, colonne, joueur, ligne2, colonne2);
+          laCase2 = choixCase(tab, n);
+          deplacerPion(tab, laCase, joueur, laCase2);
         }
         enleveCroix(tab, n);
-        estSaut = deplacementPossiblesSaut(tab, n, ligne2, colonne2);
+        estSaut = deplacementPossiblesSaut(tab, n, laCase2);
       }
       enleveCroix(tab, n);
   	}
@@ -107,318 +114,96 @@ int deplacement(s_pion** tab, int n, int ligne, int colonne, int joueur){
 }
 
 
-void deplacerPion(s_pion** tab, int ligne1, int colonne1, int joueur, int ligne2, int colonne2){
-  tab[ligne2][colonne2].valeur = tab[ligne1][colonne1].valeur;
-  tab[ligne2][colonne2].joueur = joueur;
-  tab[ligne1][colonne1].valeur = 0;
-  tab[ligne1][colonne1].joueur = 0;
+s_coord choixCase(s_pion** tab, int n){
+  s_coord laCase2; //la future laCase du pion si il est déplacé
+  do {
+    do {
+      printf("Veuillez entrer la ligne puis la colonne de la case où vous voulez déplacer votre pion : \n");
+      laCase2.ligne = saisirEntier();
+      laCase2.colonne = saisirEntier();
+      //la future laCase doit faire partie du plateau
+    } while((laCase2.ligne < 0 || laCase2.ligne >= n) || (laCase2.colonne < 0 || laCase2.colonne >= n));
+    //la future laCase doit être un déplacement possible
+  } while(tab[laCase2.ligne][laCase2.colonne].valeur != -1);
+  return(laCase2);
 }
 
 
-int deplacementsPossiblesSimples(s_pion** tab, int n, int ligne, int colonne){
-	int estPossible;
-	estPossible = 0;
-	switch (tab[ligne][colonne].valeur) {
-	case 1 :
-		if (deplacementsPossiblesSimplesCarre(tab, n, ligne, colonne)){
-			estPossible = 1;
+int aGagne(s_pion** tab, int n, int tour)
+{
+	int int_i;
+	int gagne1 = 1;
+	int gagne2 = 1;
+	for (int_i = 0; int_i < n; int_i++)
+	{
+		if (tab[0][int_i].joueur != 2){
+			gagne2 = 0;
 		}
-		break;
-	case 2 :
-		if (deplacementsPossiblesSimplesTriangle(tab, n, ligne, colonne)){
-			estPossible = 1;
+		if (tab[n-1][int_i].joueur != 1){
+			gagne1 = 0;
 		}
-		break;
-	case 3 :
-		if (deplacementsPossiblesSimplesLosange(tab, n, ligne, colonne)){
-			estPossible = 1;
+
+	}
+
+	for (int_i = 0; int_i < n; int_i++)
+	{
+		if (tour>30 && tab[0][int_i].joueur == 1){
+			gagne2 = 1;
 		}
-		break;
-	case 4 :
-		if (deplacementsPossiblesSimplesCercle(tab, n, ligne, colonne)){
-			estPossible = 1;
+		if (tour>30 && tab[n-1][int_i].joueur == 2){
+			gagne1 = 1;
 		}
-		break;
-	default :
-		break;
+
 	}
-	return(estPossible);
+
+	if (gagne1 == 1){
+		printf("Le joueur 1 a gagné\n");
+	}
+	if (gagne2 == 1){
+		printf("Le joueur 2 a gagné\n");
+	}
+  return(gagne1 || gagne2);
 }
 
 
-int deplacementPossiblesSaut(s_pion** tab, int n, int ligne, int colonne){
-  int estPossible;
-	estPossible = 0;
-	switch (tab[ligne][colonne].valeur) {
-	case 1 :
-		if (deplacementsPossiblesSautCarre(tab, n, ligne, colonne)){
-			estPossible = 1;
+int matchNul(s_pion*** jeu, int n, int tour)
+{
+	int int_i;
+	int int_j;
+	int int_k;
+	int int_l;
+	s_pion **test;
+	int identique;
+	int plat_identique;
+	int matchnul;
+	matchnul = 0;
+	test = creerTab2D(n);
+	for (int_i = 0; int_i < tour; int_i++){
+		for (int_j = 0; int_j < n; int_j++){
+			for (int_k = 0; int_k < n; int_k++){
+				test[int_j][int_k] = jeu[tour][int_j][int_k];
+			}
 		}
-		break;
-	case 2 :
-		if (deplacementsPossiblesSautTriangle(tab, n, ligne, colonne)){
-			estPossible = 1;
+		plat_identique = 0;
+		for (int_j = 0; int_j < tour; int_j++){
+			identique = 1;
+			for (int_k = 0; int_k < n; int_k++){
+				for (int_l = 0; int_l < n; int_l++){
+					if ( (test[int_k][int_l].valeur != jeu[tour][int_k][int_l].valeur)  || (test[int_k][int_l].joueur != jeu[tour][int_k][int_l].joueur)){
+						identique = 0;
+					}
+				}
+			}
+			if (identique == 1){
+				plat_identique++;
+			}
 		}
-		break;
-	case 3 :
-		if (deplacementsPossiblesSautLosange(tab, n, ligne, colonne)){
-			estPossible = 1;
+		if(plat_identique > 2){
+			matchnul = 1;
 		}
-		break;
-	case 4 :
-		if (deplacementsPossiblesSautCercle(tab, n, ligne, colonne)){
-			estPossible = 1;
-		}
-		break;
-	default :
-		break;
 	}
-	return(estPossible);
-}
-
-
-int deplacementsPossiblesSimplesCarre(s_pion** tab, int n, int ligne, int colonne){
-	int estPossible;
-	estPossible = 0;
-	//déplacement en haut
-	if (ligne > 0  &&  tab[ligne-1][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne].valeur = -1;
+	if(matchnul == 1){
+		printf("Match nul, c'est la troisième fois que l'on a cette disposition de plateau\n");
 	}
-	//déplacement en bas
-	if (ligne < n-1	 &&  tab[ligne+1][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne].valeur = -1;
-	}
-	//déplacement à droite
-	if (colonne < n-2  &&  tab[ligne][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne+1].valeur = -1;
-	}
-	//déplacement à gauche
-	if (colonne > 1	&&  tab[ligne][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne-1].valeur = -1;
-	}
-	return(estPossible);
-}
-
-
-int deplacementsPossiblesSimplesTriangle(s_pion** tab, int n, int ligne, int colonne){
-	int estPossible;
-	estPossible = 0;
-	//déplacement en bas
-	if (ligne < n-1	 &&  tab[ligne+1][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne].valeur = -1;
-	}
-	//déplacement en haut à droite
-	if (ligne > 0  &&  colonne < n-2	 &&  tab[ligne-1][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne+1].valeur = -1;
-	}
-	//déplacement en haut à gauche
-	if (ligne > 0  &&  colonne > 1 &&  tab[ligne-1][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne-1].valeur = -1;
-	}
-	return(estPossible);
-}
-
-
-int deplacementsPossiblesSimplesLosange(s_pion** tab, int n, int ligne, int colonne){
-	int estPossible;
-	estPossible = 0;
-	//déplacement en haut à droite
-	if (ligne > 0  &&  colonne < n-2	 &&  tab[ligne-1][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne+1].valeur = -1;
-	}
-	//déplacement en haut à gauche
-	if (ligne > 0  &&  colonne > 1 &&  tab[ligne-1][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne-1].valeur = -1;
-	}
-	//déplacement en bas à droite
-	if (ligne < n-1	 &&  colonne < n-2  &&	tab[ligne+1][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne+1].valeur = -1;
-	}
-	//déplacement en bas à gauche
-	if (ligne < n-1	 &&  colonne > 1 &&  tab[ligne+1][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne-1].valeur = -1;
-	}
-	return(estPossible);
-}
-
-
-int deplacementsPossiblesSimplesCercle(s_pion** tab, int n, int ligne, int colonne){
-	int estPossible;
-	estPossible = 0;
-	//déplacement en haut
-	if (ligne > 0  &&  tab[ligne-1][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne].valeur = -1;
-	}
-	//déplacement en bas
-	if (ligne < n-1	 &&  tab[ligne+1][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne].valeur = -1;
-	}
-	//déplacement à droite
-	if (colonne < n-2  &&  tab[ligne][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne+1].valeur = -1;
-	}
-	//déplacement à gauche
-	if (colonne > 1	&&  tab[ligne][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne-1].valeur = -1;
-	}
-	//déplacement en haut à droite
-	if (ligne > 0  &&  colonne < n-2	 &&  tab[ligne-1][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne+1].valeur = -1;
-	}
-	//déplacement en haut à gauche
-	if (ligne > 0  &&  colonne > 1 &&  tab[ligne-1][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne-1][colonne-1].valeur = -1;
-	}
-	//déplacement en bas à droite
-	if (ligne < n-1	 &&  colonne < n-2  &&	tab[ligne+1][colonne+1].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne+1].valeur = -1;
-	}
-	//déplacement en bas à gauche
-	if (ligne < n-1	 &&  colonne > 1 &&  tab[ligne+1][colonne-1].valeur == 0){
-		estPossible = 1;
-		tab[ligne+1][colonne-1].valeur = -1;
-	}
-	return(estPossible);
-}
-
-
-int deplacementsPossiblesSautCarre(s_pion** tab, int n, int ligne, int colonne){
-  int estPossible;
-  estPossible = 0;
-  //saut en haut
-	if (ligne > 1  &&  tab[ligne-1][colonne].valeur != 0 && tab[ligne-1][colonne].valeur != -1 && tab[ligne-2][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne].valeur = -1;
-	}
-	//saut en bas
-	if (ligne < n-2	 &&  tab[ligne+1][colonne].valeur != 0 && tab[ligne+1][colonne].valeur != -1 && tab[ligne+2][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne].valeur = -1;
-	}
-	//saut à droite
-	if (colonne < n-3  &&  tab[ligne][colonne+1].valeur != 0 && tab[ligne][colonne+1].valeur != -1 && tab[ligne][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne+2].valeur = -1;
-	}
-	//saut à gauche
-	if (colonne > 2 &&  tab[ligne][colonne-1].valeur != 0 && tab[ligne][colonne-1].valeur != -1 && tab[ligne][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne-2].valeur = -1;
-	}
-  return(estPossible);
-}
-
-
-int deplacementsPossiblesSautTriangle(s_pion** tab, int n, int ligne, int colonne){
-  int estPossible;
-  estPossible = 0;
-  //saut en bas
-	if (ligne < n-2	 &&  tab[ligne+1][colonne].valeur != 0 && tab[ligne+1][colonne].valeur != -1 && tab[ligne+2][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne].valeur = -1;
-	}
-
-	//saut en haut à droite
-	if (ligne > 1  &&  colonne < n-3	 &&  tab[ligne-1][colonne+1].valeur != 0	 &&  tab[ligne-1][colonne+1].valeur != -1  &&  tab[ligne-2][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne+2].valeur = -1;
-	}
-	//saut en haut à gauche
-	if (ligne > 1  &&  colonne > 1	&&  tab[ligne-1][colonne-1].valeur != 0	 &&  tab[ligne-1][colonne-1].valeur != -1	&&  tab[ligne-2][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne-2].valeur = -1;
-	}
-  return(estPossible);
-}
-
-
-int deplacementsPossiblesSautLosange(s_pion** tab, int n, int ligne, int colonne){
-  int estPossible;
-  estPossible = 0;
-  //saut en haut à droite
-	if (ligne > 1  &&  colonne < n-3	 &&  tab[ligne-1][colonne+1].valeur != 0	 &&  tab[ligne-1][colonne+1].valeur != -1  &&  tab[ligne-2][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne+2].valeur = -1;
-	}
-	//saut en haut à gauche
-	if (ligne > 1  &&  colonne > 1	&&  tab[ligne-1][colonne-1].valeur != 0	 &&  tab[ligne-1][colonne-1].valeur != -1	&&  tab[ligne-2][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne-2].valeur = -1;
-	}
-	//saut en bas à droite
-	if (ligne < n-2	 &&  colonne < n-3  &&	tab[ligne+1][colonne+1].valeur != 0  &&	 tab[ligne+1][colonne+1].valeur != -1  &&	tab[ligne+2][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne+2].valeur = -1;
-	}
-	//saut en bas à gauche
-	if (ligne < n-2	 &&  colonne > 1	 &&  tab[ligne+1][colonne-1].valeur != 0	 &&  tab[ligne+1][colonne-1].valeur != -1  &&  tab[ligne+2][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne-2].valeur = -1;
-	}
-  return(estPossible);
-}
-
-
-int deplacementsPossiblesSautCercle(s_pion** tab, int n, int ligne, int colonne){
-  int estPossible;
-  estPossible = 0;
-  //saut en haut
-	if (ligne > 1  &&  tab[ligne-1][colonne].valeur != 0 && tab[ligne-1][colonne].valeur != -1 && tab[ligne-2][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne].valeur = -1;
-	}
-	//saut en bas
-	if (ligne < n-2	 &&  tab[ligne+1][colonne].valeur != 0 && tab[ligne+1][colonne].valeur != -1 && tab[ligne+2][colonne].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne].valeur = -1;
-	}
-	//saut à droite
-	if (colonne < n-3  &&  tab[ligne][colonne+1].valeur != 0 && tab[ligne][colonne+1].valeur != -1 && tab[ligne][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne+2].valeur = -1;
-	}
-	//saut à gauche
-	if (colonne > 2 &&  tab[ligne][colonne-1].valeur != 0 && tab[ligne][colonne-1].valeur != -1 && tab[ligne][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne][colonne-2].valeur = -1;
-	}
-	//saut en haut à droite
-	if (ligne > 1  &&  colonne < n-3	 &&  tab[ligne-1][colonne+1].valeur != 0	 &&  tab[ligne-1][colonne+1].valeur != -1  &&  tab[ligne-2][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne+2].valeur = -1;
-	}
-	//saut en haut à gauche
-	if (ligne > 1  &&  colonne > 1	&&  tab[ligne-1][colonne-1].valeur != 0	 &&  tab[ligne-1][colonne-1].valeur != -1	&&  tab[ligne-2][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne-2][colonne-2].valeur = -1;
-	}
-	//saut en bas à droite
-	if (ligne < n-2	 &&  colonne < n-3  &&	tab[ligne+1][colonne+1].valeur != 0  &&	 tab[ligne+1][colonne+1].valeur != -1  &&	tab[ligne+2][colonne+2].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne+2].valeur = -1;
-	}
-	//saut en bas à gauche
-	if (ligne < n-2	 &&  colonne > 1	 &&  tab[ligne+1][colonne-1].valeur != 0	 &&  tab[ligne+1][colonne-1].valeur != -1  &&  tab[ligne+2][colonne-2].valeur == 0){
-		estPossible = 1;
-		tab[ligne+2][colonne-2].valeur = -1;
-	}
-  return(estPossible);
+  return(matchnul);
 }

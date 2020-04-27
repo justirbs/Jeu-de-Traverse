@@ -35,6 +35,34 @@ s_pion** creerTab2D(int n)
   return(tab);
 }
 
+
+s_pion*** creerTab3D(int n, int m){
+  s_pion*** tab; //tableau d'entiers
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  tab = malloc(n*sizeof(s_pion**));
+  if(tab==NULL){
+    fprintf(stderr, "problème d'alloc\n");
+    exit(1);
+  }
+  for(i=0; i<n; i++){
+    tab[i] = malloc(n*sizeof(s_pion*));
+    if(tab==NULL){
+    fprintf(stderr, "problème d'alloc\n");
+    exit(1);
+    }
+    for(j=0; i<n; i++){
+      tab[i][j] = malloc(n*sizeof(s_pion));
+      if(tab==NULL){
+      fprintf(stderr, "problème d'alloc\n");
+      exit(1);
+      }
+    }
+  }
+  return(tab);
+}
+
+
 void initTab(s_pion** tab, int n){
   int i; //iterrateur de boucle
   int j; //iterrateur de boucle
@@ -90,19 +118,17 @@ void afficherTab(s_pion** tab, int n){
     for(j=0; j<n; j++){
       switch (tab[i][j].joueur){
         case 0 :
-          if(tab[i][j].valeur == 0){
-            printf("   |");
-          } else printf(" X |");
+            printf(" %c |", pion(tab[i][j].valeur));
           break;
         case 1 :
           printf("\033[0;31m");
-          printf(" %d", tab[i][j].valeur);
+          printf(" %c", pion(tab[i][j].valeur));
           printf("\033[0m");
           printf(" |");
           break;
         case 2 :
           printf("\033[0;34m");
-          printf(" %d", tab[i][j].valeur);
+          printf(" %c", pion(tab[i][j].valeur));
           printf("\033[0m");
           printf(" |");
           break;
@@ -117,6 +143,35 @@ void afficherTab(s_pion** tab, int n){
     printf("----");
   }
   printf("-\n");
+}
+
+
+char pion(int valeur){
+  char symbole; //le symbole du pion
+  switch (valeur){
+    case -1 :
+      symbole = 'X';
+      break;
+    case 0 :
+      symbole = ' ';
+      break;
+    case 1 :
+      symbole = '■';
+      break;
+    case 2 :
+      symbole = '▲';
+      break;
+    case 3 :
+      symbole = '♦';
+      break;
+    case 4 :
+      symbole = '•';
+      break;
+    default :
+      printf("Erreur\n");
+      break;
+  }
+  return(symbole);
 }
 
 

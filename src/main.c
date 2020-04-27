@@ -17,13 +17,6 @@
 //Code de la fonction
 
 int main(int argc, char const *argv[]) {
-  s_pion** plateau; //plateau de jeu
-  int i;
-  plateau = creerTab2D(10);
-  initTab(plateau, 10);
-  for(i=0; i<10; i++){
-    partieJJ(plateau, 10);
-  }
-  free(plateau);
+  partieJJ();
   return 0;
 }
