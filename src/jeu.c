@@ -17,26 +17,33 @@
 
 
 void partieJJ(void){
-  /*s_pion*** jeu;*/ //l'ensembles des plateaux du jeu
-  s_pion** plateau; //le plateau initial
+  s_pion*** jeu; //l'ensembles des plateaux du jeu
+  s_pion** plateau; //le plateau du jeux
   int tour;
   int n;
   n = 10;
   tour = 0;
   plateau = creerTab2D(n);
   initTab(plateau, n);
+  jeu = creerTab3D(1, n);
   do {
     system("clear");
     afficherTab(plateau,n);
     printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
     joueurJoue(plateau, n, 1);
+    if(tour > 1){
+      jeu = agrandiTab(jeu, tour, n);
+    }
     tour ++;
-    if (!aGagne(plateau, n, tour)  &&  !matchNul(jeu, n, tour){
+    jeu[tour-1] = copieTab(plateau, n);
+    if (!aGagne(plateau, n, tour)  &&  !matchNul(jeu, n, tour)){
       system("clear");
       afficherTab(plateau,n);
       printf("\nC'est au tour du Joueur 2 (en bas) de jouer :\n\n");
       joueurJoue(plateau, n, 2);
+      jeu = agrandiTab(jeu, tour, n);
       tour ++;
+      jeu[tour-1] = copieTab(plateau, n);
     }
   } while(aGagne(plateau, n, tour)  ||  matchNul(jeu, n, tour));
   free(plateau);
@@ -51,7 +58,7 @@ void joueurJoue(s_pion** tab, int n, int joueur){
   do {
     do {
       do {
-        printf("Veuillez entrer la laCase du pion que vous voulez déplacer (laCase.ligne puis laCase.colonne) : \n");
+        printf("Veuillez entrer la case du pion que vous voulez déplacer (ligne puis colonne) : \n");
         laCase.ligne = saisirEntier();
         laCase.colonne = saisirEntier();
         //la laCase doit exister sur le plateau
@@ -60,6 +67,7 @@ void joueurJoue(s_pion** tab, int n, int joueur){
     } while(tab[laCase.ligne][laCase.colonne].joueur != joueur);
     //le pion doit pouvoir se déplacer
     estPossible = tourJoueur(tab, n, laCase, joueur);
+    aContinue = 0;
     if(estPossible == 0){
       printf("Votre pion ne peut pas être déplacé...\nSi vous voulez en essayer un autre, écrivez 1. Sinon écrivez 0.\n");
       do {
@@ -142,9 +150,7 @@ int aGagne(s_pion** tab, int n, int tour)
 		if (tab[n-1][int_i].joueur != 1){
 			gagne1 = 0;
 		}
-
 	}
-
 	for (int_i = 0; int_i < n; int_i++)
 	{
 		if (tour>30 && tab[0][int_i].joueur == 1){
@@ -153,9 +159,7 @@ int aGagne(s_pion** tab, int n, int tour)
 		if (tour>30 && tab[n-1][int_i].joueur == 2){
 			gagne1 = 1;
 		}
-
 	}
-
 	if (gagne1 == 1){
 		printf("Le joueur 1 a gagné\n");
 	}
@@ -177,7 +181,7 @@ int matchNul(s_pion*** jeu, int n, int tour)
 	int plat_identique;
 	int matchnul;
 	matchnul = 0;
-	test = creerTab2D(n);
+	test = malloc(sizeof(s_pion*) * n);
 	for (int_i = 0; int_i < tour; int_i++){
 		for (int_j = 0; int_j < n; int_j++){
 			for (int_k = 0; int_k < n; int_k++){

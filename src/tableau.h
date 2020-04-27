@@ -54,7 +54,7 @@ s_pion** creerTab2D(int n);
 
 
 /**
- * \fn s_pion*** creerTab3D(int n, int m)
+ * \fn s_pion*** creerTab3D(int tour, int n)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -63,12 +63,12 @@ s_pion** creerTab2D(int n);
  * \brief permet de créer un tableau à trois dimensions
  *
  *
- * \param n la taille des deux premières dimensions du tableau
- * \param m la taille de la troisième dimension du tableau
+ * \param tour le nombre de tour actuel
+ * \param n la taille des deux dernières dimensions du tableau
  * \return tab l'adresse de la première case du tableau crée
  *
  */
-s_pion*** creerTab3D(int n, int m);
+s_pion*** creerTab3D(int tour, int n);
 
 
 /**
@@ -153,6 +153,43 @@ char pion(int valeur);
  *
  */
 void enleveCroix(s_pion** tab, int n);
+
+
+/**
+ * \fn s_pion** copieTab(s_pion** tab1, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 27 avril 2020
+ *
+ * \brief permet de copier un tableau
+ *
+ *
+ * \param tab le tableau à copier
+ * \param n la taille du tableau
+ * \return la copie du tableau
+ *
+ */
+s_pion** copieTab(s_pion** tab1, int n);
+
+
+/**
+ * \fn s_pion*** agrandiTab(s_pion*** tab1, int tour, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 27 avril 2020
+ *
+ * \brief permet d'agrandir un tableau
+ *
+ *
+ * \param tab le tableau à agrandir
+ * \param tour le nombre de tours
+ * \param n la taille du tableau
+ * \return le tableau agrandi
+ *
+ */
+s_pion*** agrandiTab(s_pion*** tab1, int tour, int n);
 
 
 

@@ -36,28 +36,17 @@ s_pion** creerTab2D(int n)
 }
 
 
-s_pion*** creerTab3D(int n, int m){
+s_pion*** creerTab3D(int tour, int n){
   s_pion*** tab; //tableau d'entiers
   int i; //iterrateur de boucle
   int j; //iterrateur de boucle
-  tab = malloc(n*sizeof(s_pion**));
+  tab = malloc(tour*sizeof(s_pion**));
   if(tab==NULL){
     fprintf(stderr, "problème d'alloc\n");
     exit(1);
   }
-  for(i=0; i<n; i++){
-    tab[i] = malloc(n*sizeof(s_pion*));
-    if(tab==NULL){
-    fprintf(stderr, "problème d'alloc\n");
-    exit(1);
-    }
-    for(j=0; i<n; i++){
-      tab[i][j] = malloc(n*sizeof(s_pion));
-      if(tab==NULL){
-      fprintf(stderr, "problème d'alloc\n");
-      exit(1);
-      }
-    }
+  for(i=0; i<tour; i++){
+    tab[i] = creerTab2D(n);
   }
   return(tab);
 }
@@ -185,4 +174,30 @@ void enleveCroix(s_pion** tab, int n){
       }
     }
   }
+}
+
+
+s_pion** copieTab(s_pion** tab1, int n){
+  int i;
+  int j;
+  s_pion** tab2; //la copie
+  tab2 = creerTab2D(n);
+  for(i=0; i<n; i++){
+    for(j=0; j<n; j++){
+      tab2[i][j] = tab1[i][j];
+    }
+  }
+  return(tab2);
+}
+
+
+s_pion*** agrandiTab(s_pion*** tab1, int tour, int n){
+  s_pion*** tab2; //le tableau agrandi
+  int i;
+  tab2 = creerTab3D(tour+1, n);
+  for(i=0; i<tour; i++){
+      tab2[i] = copieTab(tab1[i], n);
+  }
+  free(tab1);
+  return(tab2);
 }
