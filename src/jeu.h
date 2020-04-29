@@ -34,6 +34,33 @@ void partieJJ(void);
 
 
 /**
+ * \fn void partieJO(void)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 28 avril 2020
+ *
+ * \brief permet de dérouler une partie entre un joueur et un ordi
+ *
+ *
+ */
+void partieJO(void);
+
+
+/**
+ * \fn void partieOO(void)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 28 avril 2020
+ *
+ * \brief permet de dérouler une partie entre deux ordinateurs
+ *
+ */
+void partieOO(void);
+
+
+/**
  * \fn void joueurJoue(s_pion** tab, int n, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
@@ -49,6 +76,26 @@ void partieJJ(void);
  *
  */
 void joueurJoue(s_pion** tab, int n, int joueur);
+
+
+/**
+ * \fn void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 20 avril 2020
+ *
+ * \brief permet de faire jouer le joueur
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param n la taille du plateau
+ * \param jeu l'état du jeu
+ * \param tour le nombre de tour depuis le début de la partie
+ * \param joueur le joueur qui joue
+ *
+ */
+void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur);
 
 
 /**
@@ -70,7 +117,7 @@ s_coord choixCase(s_pion** tab, int n);
 
 
 /**
- * \fn int tourJoueur(s_pion** tab, int n, s_coord laCase, int joueur)
+ * \fn int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur)
  *
  * \author Vincent Donney et Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -81,12 +128,12 @@ s_coord choixCase(s_pion** tab, int n);
  *
  * \param tab le plateau de jeu
  * \param n la taille du plateau
- * \param laCase les coordonnées de la laCase choisie
+ * \param pion les coordonnées de la case choisie
  * \param joueur le joueur qui joue
  * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-int tourJoueur(s_pion** tab, int n, s_coord laCase, int joueur);
+int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur);
 
 
 /**
@@ -125,6 +172,92 @@ int aGagne(s_pion **tab, int n, int tour);
  *
  */
 int matchNul(s_pion*** jeu, int n, int tour);
+
+
+/**
+ * \fn void tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet à l'ordinateur de jouer le pion et le coup qui lui est la plus avantageux
+ *
+ *
+ * \param plateau le plateau de jeu
+ * \param n la taille du plateau
+ * \param jeu l'état du jeu
+ * \param tour le nombre de tour depuis le début de la partie
+ * \param profondeur la profondeur de cette IA
+ * \param pionDeb le pion que l'ordi va déplacer
+ * \param pionFin la case où sera déplacé le pion
+ * \param joueur le joueur qui joue
+ *
+ */
+int tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur);
+
+
+/**
+ * \fn void tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet de simuler le coup de l'ordinateur en retournant la position qui est la plus avantageuse
+ *
+ *
+ * \param plateau le plateau de jeu
+ * \param n la taille du plateau
+ * \param jeu l'état du jeu
+ * \param tour le nombre de tour depuis le début de la partie
+ * \param profondeur la profondeur de cette IA
+ * \param joueur le joueur qui joue
+ *
+ */
+int tourMin(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, int joueur);
+
+
+/**
+ * \fn int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet d'évaluer le gain
+ *
+ *
+ * \param plateau le plateau de jeu
+ * \param n la taille du plateau
+ * \param jeu l'état du jeu
+ * \param tour le nombre de tour depuis le début de la partie
+ * \param joueur le joueur qui joue
+ * \return le gain
+ *
+ */
+int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur);
+
+
+/**
+ * \fn int calculGain(s_pion** plateau, int n, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet de calculer le gain de cet état de jeu c'est à dire la somme des distances des pion depuis la ligne de départ
+ *
+ *
+ * \param plateau le plateau de jeu
+ * \param n la taille du plateau
+ * \param jeu l'état du jeu
+ * \param tour le nombre de tour depuis le début de la partie
+ * \param joueur le joueur qui joue
+ * \return la somme
+ *
+ */
+int calculGain(s_pion** plateau, int n, int joueur);
 
 
 #endif

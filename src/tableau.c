@@ -177,7 +177,7 @@ void enleveCroix(s_pion** tab, int n){
 }
 
 
-s_pion** copieTab(s_pion** tab1, int n){
+s_pion** copieTab2D(s_pion** tab1, int n){
   int i;
   int j;
   s_pion** tab2; //la copie
@@ -191,13 +191,42 @@ s_pion** copieTab(s_pion** tab1, int n){
 }
 
 
+s_pion*** copieTab3D(s_pion*** tab1, int n, int tour){
+  int i;
+  s_pion*** tab2;
+  tab2 = creerTab3D(tour, n);
+  for(i=0; i<tour; i++){
+    tab2[i] = copieTab2D(tab1[i], n);
+  }
+  return(tab2);
+}
+
+
 s_pion*** agrandiTab(s_pion*** tab1, int tour, int n){
   s_pion*** tab2; //le tableau agrandi
   int i;
   tab2 = creerTab3D(tour+1, n);
   for(i=0; i<tour; i++){
-      tab2[i] = copieTab(tab1[i], n);
+      tab2[i] = copieTab2D(tab1[i], n);
   }
-  free(tab1);
+  freeTab3D(tab1, n, tour);
   return(tab2);
+}
+
+
+void freeTab2D(s_pion** tab, int n){
+  int i; //iterrateur de boucle
+  for(i=0; i<n; i++){
+    free(tab[i]);
+  }
+  free(tab);
+}
+
+
+void freeTab3D(s_pion*** tab, int n, int tour){
+  int i; //iterrateur de boucle
+  for(i=0; i<tour; i++){
+    freeTab2D(tab[i], n);
+  }
+  free(tab);
 }

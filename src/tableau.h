@@ -156,13 +156,13 @@ void enleveCroix(s_pion** tab, int n);
 
 
 /**
- * \fn s_pion** copieTab(s_pion** tab1, int n)
+ * \fn s_pion** copieTab2D(s_pion** tab1, int n)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
  * \date 27 avril 2020
  *
- * \brief permet de copier un tableau
+ * \brief permet de copier un tableau en deux dimensions
  *
  *
  * \param tab le tableau à copier
@@ -170,7 +170,26 @@ void enleveCroix(s_pion** tab, int n);
  * \return la copie du tableau
  *
  */
-s_pion** copieTab(s_pion** tab1, int n);
+s_pion** copieTab2D(s_pion** tab1, int n);
+
+
+/**
+ * \fn s_pion*** copieTab3D(s_pion*** tab1, int n, int tour)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet de copier un tableau en trois dimensions
+ *
+ *
+ * \param tab le tableau à copier
+ * \param n la taille du tableau
+ * \param tour le nombre de tours
+ * \return la copie du tableau
+ *
+ */
+s_pion*** copieTab3D(s_pion*** tab1, int n, int tour);
 
 
 /**
@@ -192,5 +211,40 @@ s_pion** copieTab(s_pion** tab1, int n);
 s_pion*** agrandiTab(s_pion*** tab1, int tour, int n);
 
 
+/**
+ * \fn void freeTab2D(s_pion** tab, int n)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet de free des tableaux à deux dimenssions
+ *
+ *
+ * \param tab le tableau à supprimer
+ * \param n la taille du tableau
+ * \return le tableau agrandi
+ *
+ */
+void freeTab2D(s_pion** tab, int n);
+
+
+/**
+ * \fn void freeTab3D(s_pion*** tab, int n, int tour)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 29 avril 2020
+ *
+ * \brief permet de free des tableaux à trois dimenssions
+ *
+ *
+ * \param tab le tableau à supprimer
+ * \param n la taille du tableau
+ * \param tour le nombre de tours
+ * \return le tableau agrandi
+ *
+ */
+void freeTab3D(s_pion*** tab, int n, int tour);
 
 #endif

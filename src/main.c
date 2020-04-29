@@ -17,6 +17,22 @@
 //Code de la fonction
 
 int main(int argc, char const *argv[]) {
-  partieJJ();
+  int choix; //choix de l'utilisateur
+  printf("Que voulez-vous faire ?\n1-Faire une partie Joueur contre Joueur\n2-Faire une partie Joueur contre Ordi\n3-Lancer le jeu test\n");
+  choix = saisirEntier();
+  switch (choix) {
+    case 1 :
+      partieJJ();
+      break;
+    case 2 :
+      partieJO();
+      break;
+    case 3 :
+      partieOO();
+      break;
+    default :
+      printf("Erreur\n");
+      break;
+  }
   return 0;
 }
