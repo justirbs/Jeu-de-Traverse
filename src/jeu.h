@@ -194,28 +194,7 @@ int matchNul(s_pion*** jeu, int n, int tour);
  * \param joueur le joueur qui joue
  *
  */
-int tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur);
-
-
-/**
- * \fn void tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, int joueur)
- *
- * \author Justine Ribas <ribasjusti@eisti.eu>
- * \version 0.1
- * \date 29 avril 2020
- *
- * \brief permet de simuler le coup de l'ordinateur en retournant la position qui est la plus avantageuse
- *
- *
- * \param plateau le plateau de jeu
- * \param n la taille du plateau
- * \param jeu l'état du jeu
- * \param tour le nombre de tour depuis le début de la partie
- * \param profondeur la profondeur de cette IA
- * \param joueur le joueur qui joue
- *
- */
-int tourMin(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, int joueur);
+ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax);
 
 
 /**
