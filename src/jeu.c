@@ -112,6 +112,7 @@ void partieOO(void){
   do {
     system("clear");
     afficherTab(plateau,n);
+    printf("\nNombre de tours : %d\n", tour);
     ordiJoue(plateau, n, jeu, tour, 1);
     if(tour > 1){
       jeu = agrandiTab(jeu, tour, n);
@@ -121,6 +122,7 @@ void partieOO(void){
     if (aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour)){
       system("clear");
       afficherTab(plateau, n);
+      printf("\nNombre de tours : %d\n", tour);
       ordiJoue(plateau, n, jeu, tour, 2);
       jeu = agrandiTab(jeu, tour, n);
       tour ++;
@@ -271,37 +273,35 @@ int matchNul(s_pion*** jeu, int n, int tour)
 	int int_j;
 	int int_k;
 	int int_l;
-	s_pion **test;
-	int identique;
-	int plat_identique;
-	int matchnul;
+	int identique; //vrai si deux plateau sont identiques
+	int plat_identique; //le compteur de plateau identique
+	int matchnul; //vrai si le match est nul
 	matchnul = 0;
-	test = malloc(sizeof(s_pion*) * n);
-	for (int_i = 0; int_i < n; int_i++)
-	{
-		test[int_i] = malloc(sizeof(s_pion) *n);
-	}
 
 	for (int_i = 0; int_i < tour; int_i++){
-		for (int_j = 0; int_j < n; int_j++){
-			for (int_k = 0; int_k < n; int_k++){
-				test[int_j][int_k] = jeu[int_i][int_j][int_k];
-			}
-		}
 		plat_identique = 0;
 		for (int_j = 0; int_j < tour; int_j++){
-			identique = 1;
-			for (int_k = 0; int_k < n; int_k++){
-				for (int_l = 0; int_l < n; int_l++){
-					if ( (test[int_k][int_l].valeur != jeu[int_j][int_k][int_l].valeur)  || (test[int_k][int_l].joueur != jeu[int_j][int_k][int_l].joueur)){
-						identique = 0;
-					}
-				}
-			}
-			if (identique == 1){
-				plat_identique++;
-			}
+      if (int_i != int_j) {
+        //Verrifier si les deux plateaux courants sont identiques
+  			identique = 1;
+        int_k = 0;
+  			while (identique == 1 && int_k < n){
+          int_l = 0;
+  				while (identique == 1 && int_l < n){
+  					if ( (jeu[int_i][int_k][int_l].valeur != jeu[int_j][int_k][int_l].valeur)  || (jeu[int_i][int_k][int_l].joueur != jeu[int_j][int_k][int_l].joueur)){
+  						identique = 0;
+  					}
+            int_l++;
+  				}
+          int_k++;
+  			}
+        //si ils sont identiques, augmenter le compteur
+  			if (identique == 1){
+  				plat_identique++;
+  			}
+      }
 		}
+    //si il y a plus de deux plateaux identiques, alors le match est nul
 		if(plat_identique > 2){
 			matchnul = 1;
 		}
@@ -319,59 +319,52 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
   int gainResultat;
   s_pion** copiePlateau;
   s_pion*** copieJeu;
+  s_coord pionDebTemp;
+  s_coord pionFinTemp;
   gainResultat = -101;
-  printf("minMax\n\tprofondeur = %d\n\tjoueur = %d\n",profondeur, joueur);
   enleveCroix(plateau, n);
   if(profondeur == 0 || aGagne(plateau, n, tour) != 0 || matchNul(jeu, n, tour)){
-    printf("evaluerGain\n");
     gainResultat = evaluerGain(plateau, n, jeu, tour, joueur);
   } else {
-    printf("partie continue\n");
     //pour tous les pions de l'IA
     for(i=0; i<n; i++){
       for(j=0; j<n; j++){
         if(plateau[i][j].joueur == joueur){
           enleveCroix(plateau, n);
-          pionDeb->ligne = i;
-          pionDeb->colonne = j;
+          pionDebTemp.ligne = i;
+          pionDebTemp.colonne = j;
           //Afficher les déplacements possibles
-          if(deplacementsPossibles(plateau, n, *pionDeb)){
+          if(deplacementsPossibles(plateau, n, pionDebTemp)){
             //Pour chaque déplacement possible
-            printf("If \n");
             for(k=0; k<n; k++){
               for(l=0; l<n; l++){
                 if(plateau[k][l].valeur == -1){
                   //on copie le plateau et le jeu
                   copiePlateau = copieTab2D(plateau, n);
                   copieJeu = copieTab3D(jeu, n, tour);
-                  pionDeb->ligne = i;
-                  pionDeb->colonne = j;
-                  pionFin->ligne = k;
-                  pionFin->colonne = l;
+                  pionDebTemp.ligne = i;
+                  pionDebTemp.colonne = j;
+                  pionFinTemp.ligne = k;
+                  pionFinTemp.colonne = l;
                   //printf("\n");
                   //afficherTab(copiePlateau, n);
-                  printf("\ton déplace le pion %d;%d à la case %d;%d\n", i, j, k, l);
                   //L'IA JOUE
                   enleveCroix(copiePlateau, n);
-                  deplacerPion(copiePlateau, *pionDeb, joueur, *pionFin);
+                  deplacerPion(copiePlateau, pionDebTemp, joueur, pionFinTemp);
+                  if(tour > 1){
+                    copieJeu = agrandiTab(copieJeu, tour, n);
+                  }
+                  copieJeu[tour] = copieTab2D(copiePlateau, n);
                   //on simule le coup de l'utilisateur
-                  gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, pionDeb, pionFin,(joueur == 1 ? 2 : 1), !evalMax);
+                  gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, &pionDebTemp, &pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
                   freeTab2D(copiePlateau, n);
                   freeTab3D(copieJeu, n, tour);
-                  if(evalMax && (gainCourant > gainResultat || gainResultat == -101)){
+                  if((evalMax && gainCourant > gainResultat) || (!evalMax && gainCourant < gainResultat) || gainResultat == -101){
                     gainResultat = gainCourant;
-                    pionDeb->ligne = i;
-                    pionDeb->colonne = j;
-                    pionFin->ligne = k;
-                    pionFin->colonne = l;
-                  } else {
-                    if(!evalMax && (gainCourant < gainResultat || gainResultat == -101)){
-                      gainResultat = gainCourant;
-                      pionDeb->ligne = i;
-                      pionDeb->colonne = j;
-                      pionFin->ligne = k;
-                      pionFin->colonne = l;
-                    }
+                    pionDeb->ligne = pionDebTemp.ligne;
+                    pionDeb->colonne = pionDebTemp.colonne;
+                    pionFin->ligne = pionFinTemp.ligne;
+                    pionFin->colonne = pionFinTemp.colonne;
                   }
                 }
               }
