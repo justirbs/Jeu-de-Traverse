@@ -114,19 +114,23 @@ void partieOO(void){
     afficherTab(plateau,n);
     printf("\nNombre de tours : %d\n", tour);
     ordiJoue(plateau, n, jeu, tour, 1);
+    printf("Le gain du joueur1 est %d\n", evaluerGain(plateau, n, jeu, tour, 1));
     if(tour > 1){
       jeu = agrandiTab(jeu, tour, n);
     }
     tour ++;
     jeu[tour-1] = copieTab2D(plateau, n);
+    sleep(1);
     if (aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour)){
       system("clear");
       afficherTab(plateau, n);
       printf("\nNombre de tours : %d\n", tour);
       ordiJoue(plateau, n, jeu, tour, 2);
+      printf("Le gain du joueur2 est %d\n", evaluerGain(plateau, n, jeu, tour, 2));
       jeu = agrandiTab(jeu, tour, n);
       tour ++;
       jeu[tour-1] = copieTab2D(plateau, n);
+      sleep(1);
     }
   } while(aGagne(plateau, n, tour) == 0   &&   !matchNul(jeu, n, tour));
   if(aGagne(plateau, n, tour) != 0){
@@ -319,8 +323,8 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
   int gainResultat;
   s_pion** copiePlateau;
   s_pion*** copieJeu;
-  s_coord pionDebTemp;
-  s_coord pionFinTemp;
+  s_coord* pionDebTemp = malloc(sizeof(s_coord));
+  s_coord* pionFinTemp = malloc(sizeof(s_coord));
   gainResultat = -101;
   enleveCroix(plateau, n);
   if(profondeur == 0 || aGagne(plateau, n, tour) != 0 || matchNul(jeu, n, tour)){
@@ -331,10 +335,10 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
       for(j=0; j<n; j++){
         if(plateau[i][j].joueur == joueur){
           enleveCroix(plateau, n);
-          pionDebTemp.ligne = i;
-          pionDebTemp.colonne = j;
+          pionDebTemp->ligne = i;
+          pionDebTemp->colonne = j;
           //Afficher les déplacements possibles
-          if(deplacementsPossibles(plateau, n, pionDebTemp)){
+          if(deplacementsPossibles(plateau, n, *pionDebTemp)){
             //Pour chaque déplacement possible
             for(k=0; k<n; k++){
               for(l=0; l<n; l++){
@@ -342,29 +346,30 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
                   //on copie le plateau et le jeu
                   copiePlateau = copieTab2D(plateau, n);
                   copieJeu = copieTab3D(jeu, n, tour);
-                  pionDebTemp.ligne = i;
-                  pionDebTemp.colonne = j;
-                  pionFinTemp.ligne = k;
-                  pionFinTemp.colonne = l;
+                  enleveCroix(copiePlateau, n);
+                  pionDebTemp->ligne = i;
+                  pionDebTemp->colonne = j;
+                  pionFinTemp->ligne = k;
+                  pionFinTemp->colonne = l;
                   //printf("\n");
                   //afficherTab(copiePlateau, n);
+                  //sleep(1);
                   //L'IA JOUE
-                  enleveCroix(copiePlateau, n);
-                  deplacerPion(copiePlateau, pionDebTemp, joueur, pionFinTemp);
+                  deplacerPion(copiePlateau, *pionDebTemp, joueur, *pionFinTemp);
                   if(tour > 1){
                     copieJeu = agrandiTab(copieJeu, tour, n);
                   }
                   copieJeu[tour] = copieTab2D(copiePlateau, n);
                   //on simule le coup de l'utilisateur
-                  gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, &pionDebTemp, &pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
+                  gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, pionDebTemp, pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
                   freeTab2D(copiePlateau, n);
                   freeTab3D(copieJeu, n, tour);
                   if((evalMax && gainCourant > gainResultat) || (!evalMax && gainCourant < gainResultat) || gainResultat == -101){
                     gainResultat = gainCourant;
-                    pionDeb->ligne = pionDebTemp.ligne;
-                    pionDeb->colonne = pionDebTemp.colonne;
-                    pionFin->ligne = pionFinTemp.ligne;
-                    pionFin->colonne = pionFinTemp.colonne;
+                    pionDeb->ligne = pionDebTemp->ligne;
+                    pionDeb->colonne = pionDebTemp->colonne;
+                    pionFin->ligne = pionFinTemp->ligne;
+                    pionFin->colonne = pionFinTemp->colonne;
                   }
                 }
               }
@@ -374,6 +379,9 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
       }
     }
   }
+  free(pionDebTemp);
+  free(pionFinTemp);
+  enleveCroix(plateau, n);
   //sleep(1);
   //printf("\nPour le joueur %d, on déplace le pion %d;%d à la case %d;%d \nLe gain est %d\n\n", joueur, pionDeb->ligne, pionDeb->colonne, pionFin->ligne, pionFin->colonne, gainMax );
   return(gainResultat);
@@ -383,10 +391,10 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
 int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur){
   int gain;
   if (aGagne(plateau, n, tour) == joueur){
-    gain = 100;
+    gain = 1000;
   } else {
     if (aGagne(plateau, n, tour) != joueur  &&  aGagne(plateau, n, tour) != 0){
-      gain = -100;
+      gain = -1000;
     } else {
       if (matchNul(jeu, n, tour)){
         gain = 0;
@@ -406,11 +414,20 @@ int calculGain(s_pion** plateau, int n, int joueur){
   somme = 0;
   for(i=0; i<n; i++){
     for(j=0; j<n; j++){
+      //on ajoute les distance des pion de l'IA depuis sa ligne d'arrivée
       if (plateau[i][j].joueur == joueur){
         if (joueur == 1){
-          somme = somme + i + 1;
+          somme += (i==0 ? -20 : i);
         } else {
-          somme = somme + n - i;
+          somme += (i==9 ? -20 : n - 1 - i);
+        }
+      }
+      //on retire les distance des pion de l'adversaire depuis sa ligne d'arrivée
+      if (plateau[i][j].joueur != joueur  &&  plateau[i][j].joueur != 0){
+        if (joueur == 1){
+          somme -= i;
+        } else {
+          somme -= n - 1 - i;
         }
       }
     }

@@ -283,7 +283,7 @@ int deplacementsPossiblesSautTriangle(s_pion** tab, int n, s_coord pion){
 		tab[pion.ligne-2][pion.colonne+2].valeur = -1;
 	}
 	//saut en haut à gauche
-	if (pion.ligne > 1  &&  pion.colonne > 1	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
+	if (pion.ligne > 1  &&  pion.colonne > 2	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
 		estPossible = 1;
 		tab[pion.ligne-2][pion.colonne-2].valeur = -1;
 	}
@@ -324,7 +324,7 @@ int deplacementsPossiblesSautLosange(s_pion** tab, int n, s_coord pion){
 		tab[pion.ligne-2][pion.colonne+2].valeur = -1;
 	}
 	//saut en haut à gauche
-	if (pion.ligne > 1  &&  pion.colonne > 1	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
+	if (pion.ligne > 1  &&  pion.colonne > 2	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
 		estPossible = 1;
 		tab[pion.ligne-2][pion.colonne-2].valeur = -1;
 	}
@@ -334,7 +334,7 @@ int deplacementsPossiblesSautLosange(s_pion** tab, int n, s_coord pion){
 		tab[pion.ligne+2][pion.colonne+2].valeur = -1;
 	}
 	//saut en bas à gauche
-	if (pion.ligne < n-2	 &&  pion.colonne > 1	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != -1  &&  tab[pion.ligne+2][pion.colonne-2].valeur == 0){
+	if (pion.ligne < n-2	 &&  pion.colonne > 2	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != -1  &&  tab[pion.ligne+2][pion.colonne-2].valeur == 0){
 		estPossible = 1;
 		tab[pion.ligne+2][pion.colonne-2].valeur = -1;
 	}
@@ -405,7 +405,7 @@ int deplacementsPossiblesSautCercle(s_pion** tab, int n, s_coord pion){
 		tab[pion.ligne-2][pion.colonne+2].valeur = -1;
 	}
 	//saut en haut à gauche
-	if (pion.ligne > 1  &&  pion.colonne > 1	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
+	if (pion.ligne > 1  &&  pion.colonne > 2	&&  tab[pion.ligne-1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne-1].valeur != -1	&&  tab[pion.ligne-2][pion.colonne-2].valeur == 0){
 		estPossible = 1;
 		tab[pion.ligne-2][pion.colonne-2].valeur = -1;
 	}
@@ -415,7 +415,7 @@ int deplacementsPossiblesSautCercle(s_pion** tab, int n, s_coord pion){
 		tab[pion.ligne+2][pion.colonne+2].valeur = -1;
 	}
 	//saut en bas à gauche
-	if (pion.ligne < n-2	 &&  pion.colonne > 1	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != -1  &&  tab[pion.ligne+2][pion.colonne-2].valeur == 0){
+	if (pion.ligne < n-2	 &&  pion.colonne > 2	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != 0	 &&  tab[pion.ligne+1][pion.colonne-1].valeur != -1  &&  tab[pion.ligne+2][pion.colonne-2].valeur == 0){
 		estPossible = 1;
 		tab[pion.ligne+2][pion.colonne-2].valeur = -1;
 	}
