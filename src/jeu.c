@@ -114,25 +114,27 @@ void partieOO(void){
     afficherTab(plateau,n);
     printf("\nNombre de tours : %d\n", tour);
     ordiJoue(plateau, n, jeu, tour, 1);
-    printf("Le gain du joueur1 est %d\n", evaluerGain(plateau, n, jeu, tour, 1));
     if(tour > 1){
       jeu = agrandiTab(jeu, tour, n);
     }
     tour ++;
     jeu[tour-1] = copieTab2D(plateau, n);
-    sleep(1);
+    //sleep(1);
     if (aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour)){
       system("clear");
       afficherTab(plateau, n);
       printf("\nNombre de tours : %d\n", tour);
       ordiJoue(plateau, n, jeu, tour, 2);
-      printf("Le gain du joueur2 est %d\n", evaluerGain(plateau, n, jeu, tour, 2));
       jeu = agrandiTab(jeu, tour, n);
       tour ++;
       jeu[tour-1] = copieTab2D(plateau, n);
-      sleep(1);
+      //sleep(1);
     }
+    printf("A gagner : %d\n", aGagne(plateau, n, tour));
   } while(aGagne(plateau, n, tour) == 0   &&   !matchNul(jeu, n, tour));
+  system("clear");
+  afficherTab(plateau, n);
+  printf("\nNombre de tours : %d\n", tour);
   if(aGagne(plateau, n, tour) != 0){
     printf("Le joueur %d a gagné !\n", aGagne(plateau, n, tour));
   } else {
@@ -240,6 +242,7 @@ int aGagne(s_pion** tab, int n, int tour)
 	int gagne1 = 1;
 	int gagne2 = 1;
   int aGagne;
+  //un joueur n'a pas gagné si tous ses pions ne sont pas sur la ligne d'arrivé
 	for (int_i = 1; int_i < n-1; int_i++)
 	{
 		if (tab[0][int_i].joueur != 2){
@@ -249,15 +252,18 @@ int aGagne(s_pion** tab, int n, int tour)
 			gagne1 = 0;
 		}
 	}
-	for (int_i = 1; int_i < n-1; int_i++)
-	{
-		if (tour>30 && tab[0][int_i].joueur == 1){
-			gagne2 = 1;
-		}
-		if (tour>30 && tab[n-1][int_i].joueur == 2){
-			gagne1 = 1;
-		}
-	}
+  //si au tour 30 un joueur a des pions sur sa ligne de départ, l'adversaire gagne
+  if (tour>30){
+  	for (int_i = 1; int_i < n-1; int_i++)
+  	{
+  		if (tab[0][int_i].joueur == 1){
+  			gagne2 = 1;
+  		}
+  		if (tab[n-1][int_i].joueur == 2){
+  			gagne1 = 1;
+  		}
+  	}
+  }
   if(gagne1){
     aGagne = 1;
   } else {
@@ -325,7 +331,7 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
   s_pion*** copieJeu;
   s_coord* pionDebTemp = malloc(sizeof(s_coord));
   s_coord* pionFinTemp = malloc(sizeof(s_coord));
-  gainResultat = -101;
+  gainResultat = -2000;
   enleveCroix(plateau, n);
   if(profondeur == 0 || aGagne(plateau, n, tour) != 0 || matchNul(jeu, n, tour)){
     gainResultat = evaluerGain(plateau, n, jeu, tour, joueur);
@@ -364,12 +370,12 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
                   gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, pionDebTemp, pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
                   freeTab2D(copiePlateau, n);
                   freeTab3D(copieJeu, n, tour);
-                  if((evalMax && gainCourant > gainResultat) || (!evalMax && gainCourant < gainResultat) || gainResultat == -101){
+                  if((evalMax && gainCourant > gainResultat) || (!evalMax && gainCourant < gainResultat) || gainResultat == -2000){
                     gainResultat = gainCourant;
-                    pionDeb->ligne = pionDebTemp->ligne;
-                    pionDeb->colonne = pionDebTemp->colonne;
-                    pionFin->ligne = pionFinTemp->ligne;
-                    pionFin->colonne = pionFinTemp->colonne;
+                    pionDeb->ligne = i;
+                    pionDeb->colonne = j;
+                    pionFin->ligne = k;
+                    pionFin->colonne = l;
                   }
                 }
               }
@@ -417,9 +423,9 @@ int calculGain(s_pion** plateau, int n, int joueur){
       //on ajoute les distance des pion de l'IA depuis sa ligne d'arrivée
       if (plateau[i][j].joueur == joueur){
         if (joueur == 1){
-          somme += (i==0 ? -20 : i);
+          somme += (i==0 ? -100 : i);
         } else {
-          somme += (i==9 ? -20 : n - 1 - i);
+          somme += (i==9 ? -100 : n - 1 - i);
         }
       }
       //on retire les distance des pion de l'adversaire depuis sa ligne d'arrivée
