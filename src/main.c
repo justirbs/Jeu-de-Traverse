@@ -22,12 +22,15 @@ int main(int argc, char const *argv[]) {
   choix = saisirEntier();
   switch (choix) {
     case 1 :
+      //pour lancer une partie "Joueur-Joueur"
       partieJJ();
       break;
     case 2 :
+      //pour lancer une partie "Joueur-Ordinateur"
       partieJO();
       break;
     case 3 :
+      //pour lancer une partie "Ordinateur-Ordinateur"
       partieOO();
       break;
     default :

@@ -13,13 +13,14 @@
 // Inclusion des librairies
 #include "jeu.h"
 
+
 // Codes des fonctions
 
-
+/*Fonction qui déroule une partie "Joueur-Joueur"*/
 void partieJJ(void){
-  s_pion*** jeu; //l'ensembles des plateaux du jeu
-  s_pion** plateau; //le plateau du jeux
-  int tour;
+  s_pion*** jeu; //l'ensembles des plateaux du jeu depuis le début de la partie
+  s_pion** plateau; //le plateau du jeux actuel
+  int tour; //le nombre de tours depuis le début de la partie
   int n;
   n = 10;
   tour = 0;
@@ -75,7 +76,6 @@ void partieJO(void){
     printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
     joueurJoue(plateau, n, 1);
     if(tour > 1){
-      jeu = agrandiTab(jeu, tour, n);
     }
     tour ++;
     jeu[tour-1] = copieTab2D(plateau, n);
@@ -83,6 +83,7 @@ void partieJO(void){
       system("clear");
       afficherTab(plateau, n);
       ordiJoue(plateau, n, jeu, tour, 2);
+      jeu = agrandiTab(jeu, tour, n);
       jeu = agrandiTab(jeu, tour, n);
       tour ++;
       jeu[tour-1] = copieTab2D(plateau, n);
@@ -196,8 +197,9 @@ void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur){
     }
   }
   if (estPossible){
-    gain = minMax(tab, n, jeu, tour, 1, pionDeb, pionFin, joueur, 1);
+    gain = minMax(tab, n, jeu, tour, 2, pionDeb, pionFin, joueur, 1);
     deplacerPion(tab, *pionDeb, joueur, *pionFin);
+    gain++;
   }
   enleveCroix(tab, n);
 }

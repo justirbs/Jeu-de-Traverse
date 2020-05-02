@@ -14,19 +14,22 @@
 #include "deplacement.h"
 
 
+
 // Codes des fonctions
 
-
+/*Fonction pour déplacer un pion*/
 void deplacerPion(s_pion** tab, s_coord pion1, int joueur, s_coord pion2){
+  //la case où le pion se déplace prend la valeur et l'appartenance du pion
   tab[pion2.ligne][pion2.colonne].valeur = tab[pion1.ligne][pion1.colonne].valeur;
   tab[pion2.ligne][pion2.colonne].joueur = joueur;
+  //l'ancienne case est maintenant vide
   tab[pion1.ligne][pion1.colonne].valeur = 0;
   tab[pion1.ligne][pion1.colonne].joueur = 0;
 }
 
-
+/*Fonction qui cherche s'il un pion peut se déplacer*/
 int deplacementsPossibles(s_pion** tab, int n, s_coord pion){
-  int estPossible;
+  int estPossible; //variable booléenne qui indique si un déplacement est possible
   int estSaut; //variable booléenne qui indique si un déplacement avec saut est possible
   int estSimple; //variable booléenne qui indique si un déplacement simple est possible
   estSaut = deplacementPossiblesSaut(tab, n, pion);
@@ -39,27 +42,31 @@ int deplacementsPossibles(s_pion** tab, int n, s_coord pion){
   return(estPossible);
 }
 
-
+/*Fonction qui cerche si un pion peut effectuer un déplacement simple*/
 int deplacementsPossiblesSimples(s_pion** tab, int n, s_coord pion){
-	int estPossible;
+	int estPossible; //variable booléenne qui indique si un déplacement simple est possible
 	estPossible = 0;
 	switch (tab[pion.ligne][pion.colonne].valeur) {
 	case 1 :
+    //dans le cas d'un carré
 		if (deplacementsPossiblesSimplesCarre(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 2 :
+    //dans le cas d'un triangle
 		if (deplacementsPossiblesSimplesTriangle(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 3 :
+    //dans le cas d'un losange
 		if (deplacementsPossiblesSimplesLosange(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 4 :
+    //dans le cas d'un cercle
 		if (deplacementsPossiblesSimplesCercle(tab, n, pion)){
 			estPossible = 1;
 		}
@@ -70,27 +77,31 @@ int deplacementsPossiblesSimples(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cerche si un pion peut effectuer un déplacement avec saut*/
 int deplacementPossiblesSaut(s_pion** tab, int n, s_coord pion){
-  int estPossible;
+  int estPossible; //variable booléenne qui indique si un déplacement avec saut est possible
 	estPossible = 0;
 	switch (tab[pion.ligne][pion.colonne].valeur) {
 	case 1 :
+    //dans le cas d'un carré
 		if (deplacementsPossiblesSautCarre(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 2 :
+    //dans le cas d'un triangle
 		if (deplacementsPossiblesSautTriangle(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 3 :
-		if (deplacementsPossiblesSautLosange(tab, n, pion)){
+    //dans le cas d'un losange
+    if (deplacementsPossiblesSautLosange(tab, n, pion)){
 			estPossible = 1;
 		}
 		break;
 	case 4 :
+    //dans le cas d'un cercle
 		if (deplacementsPossiblesSautCercle(tab, n, pion)){
 			estPossible = 1;
 		}
@@ -101,9 +112,9 @@ int deplacementPossiblesSaut(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles simples pour un carré*/
 int deplacementsPossiblesSimplesCarre(s_pion** tab, int n, s_coord pion){
-	int estPossible;
+	int estPossible; //variable booléenne qui indique si un déplacement simple pour un carré est possible
 	estPossible = 0;
 	//déplacement en haut
 	if (pion.ligne > 0  &&  tab[pion.ligne-1][pion.colonne].valeur == 0){
@@ -128,9 +139,9 @@ int deplacementsPossiblesSimplesCarre(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles simples pour un triangle*/
 int deplacementsPossiblesSimplesTriangle(s_pion** tab, int n, s_coord pion){
-	int estPossible;
+	int estPossible; //variable booléenne qui indique si un déplacement simple pour un triangle est possible
 	estPossible = 0;
 	//déplacement en bas
 	if (pion.ligne < n-1	 &&  tab[pion.ligne+1][pion.colonne].valeur == 0){
@@ -150,9 +161,9 @@ int deplacementsPossiblesSimplesTriangle(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles simples pour un losange*/
 int deplacementsPossiblesSimplesLosange(s_pion** tab, int n, s_coord pion){
-	int estPossible;
+	int estPossible; //variable booléenne qui indique si un déplacement simple pour un losange est possible
 	estPossible = 0;
 	//déplacement en haut à droite
 	if (pion.ligne > 0  &&  pion.colonne < n-2	 &&  tab[pion.ligne-1][pion.colonne+1].valeur == 0){
@@ -177,9 +188,9 @@ int deplacementsPossiblesSimplesLosange(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles simples pour un cercle*/
 int deplacementsPossiblesSimplesCercle(s_pion** tab, int n, s_coord pion){
-	int estPossible;
+	int estPossible; //variable booléenne qui indique si un déplacement simple pour un cercle est possible
 	estPossible = 0;
 	//déplacement en haut
 	if (pion.ligne > 0  &&  tab[pion.ligne-1][pion.colonne].valeur == 0){
@@ -224,12 +235,12 @@ int deplacementsPossiblesSimplesCercle(s_pion** tab, int n, s_coord pion){
 	return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles avec saut pour un carré*/
 int deplacementsPossiblesSautCarre(s_pion** tab, int n, s_coord pion){
-  int estPossible;
-  int i;
-  int j;
-  s_coord pion2;
+  int estPossible; //variable booléenne qui indique si un déplacement avec saut pour un carré est possible
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  s_coord pion2; //case d'arrivée du premier saut
   estPossible = 0;
   //saut en haut
 	if (pion.ligne > 1  &&  tab[pion.ligne-1][pion.colonne].valeur != 0 && tab[pion.ligne-1][pion.colonne].valeur != -1 && tab[pion.ligne-2][pion.colonne].valeur == 0){
@@ -251,6 +262,7 @@ int deplacementsPossiblesSautCarre(s_pion** tab, int n, s_coord pion){
 		estPossible = 1;
 		tab[pion.ligne][pion.colonne-2].valeur = -1;
 	}
+  //tant qu'on peut faire un saut on regarde si un autre saut est possible
   if(estPossible == 1){
     for(i=0; i<n; i++){
       for(j=0; j<n; j++){
@@ -265,12 +277,12 @@ int deplacementsPossiblesSautCarre(s_pion** tab, int n, s_coord pion){
   return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles avec saut pour un triangle*/
 int deplacementsPossiblesSautTriangle(s_pion** tab, int n, s_coord pion){
-  int estPossible;
-  int i;
-  int j;
-  s_coord pion2;
+  int estPossible; //variable booléenne qui indique si un déplacement avec saut pour un triangle est possible
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  s_coord pion2; //case d'arrivée du premier saut
   estPossible = 0;
   //saut en bas
 	if (pion.ligne < n-2	 &&  tab[pion.ligne+1][pion.colonne].valeur != 0 && tab[pion.ligne+1][pion.colonne].valeur != -1 && tab[pion.ligne+2][pion.colonne].valeur == 0){
@@ -297,6 +309,7 @@ int deplacementsPossiblesSautTriangle(s_pion** tab, int n, s_coord pion){
 		estPossible = 1;
 		tab[pion.ligne-2][pion.colonne-2].valeur = -1;
 	}
+  //tant qu'on peut faire un saut on regarde si un autre saut est possible
   if(estPossible == 1){
     for(i=0; i<n; i++){
       for(j=0; j<n; j++){
@@ -311,12 +324,12 @@ int deplacementsPossiblesSautTriangle(s_pion** tab, int n, s_coord pion){
   return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles avec saut pour un losange*/
 int deplacementsPossiblesSautLosange(s_pion** tab, int n, s_coord pion){
-  int estPossible;
-  int i;
-  int j;
-  s_coord pion2;
+  int estPossible; //variable booléenne qui indique si un déplacement avec saut pour un losange est possible
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  s_coord pion2; //case d'arrivée du premier saut
   estPossible = 0;
   //saut en haut à droite
 	if (pion.ligne > 1  &&  pion.colonne < n-3	 &&  tab[pion.ligne-1][pion.colonne+1].valeur != 0	 &&  tab[pion.ligne-1][pion.colonne+1].valeur != -1  &&  tab[pion.ligne-2][pion.colonne+2].valeur == 0){
@@ -358,6 +371,7 @@ int deplacementsPossiblesSautLosange(s_pion** tab, int n, s_coord pion){
 		estPossible = 1;
 		tab[pion.ligne+2][pion.colonne-2].valeur = -1;
 	}
+  //tant qu'on peut faire un saut on regarde si un autre saut est possible
   if(estPossible == 1){
     for(i=0; i<n; i++){
       for(j=0; j<n; j++){
@@ -372,12 +386,12 @@ int deplacementsPossiblesSautLosange(s_pion** tab, int n, s_coord pion){
   return(estPossible);
 }
 
-
+/*Fonction qui cherche tous les déplacement possibles avec saut pour un cercle*/
 int deplacementsPossiblesSautCercle(s_pion** tab, int n, s_coord pion){
-  int estPossible;
-  int i;
-  int j;
-  s_coord pion2;
+  int estPossible; //variable booléenne qui indique si un déplacement avec saut pour un cercle est possible
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  s_coord pion2; //case d'arrivée du premier saut
   estPossible = 0;
   //saut en haut
 	if (pion.ligne > 1  &&  tab[pion.ligne-1][pion.colonne].valeur != 0 && tab[pion.ligne-1][pion.colonne].valeur != -1 && tab[pion.ligne-2][pion.colonne].valeur == 0){
@@ -439,6 +453,7 @@ int deplacementsPossiblesSautCercle(s_pion** tab, int n, s_coord pion){
 		estPossible = 1;
 		tab[pion.ligne+2][pion.colonne-2].valeur = -1;
 	}
+  //tant qu'on peut faire un saut on regarde si un autre saut est possible
   if(estPossible == 1){
     for(i=0; i<n; i++){
       for(j=0; j<n; j++){

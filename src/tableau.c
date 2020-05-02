@@ -39,7 +39,6 @@ s_pion** creerTab2D(int n)
 s_pion*** creerTab3D(int tour, int n){
   s_pion*** tab; //tableau d'entiers
   int i; //iterrateur de boucle
-  int j; //iterrateur de boucle
   tab = malloc(tour*sizeof(s_pion**));
   if(tab==NULL){
     fprintf(stderr, "problème d'alloc\n");

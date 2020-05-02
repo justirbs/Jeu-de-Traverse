@@ -20,6 +20,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Définition des variables globales
+#define N 10
+
+// Définition des structures
+
 /*! \struct s_pion
  * Structure qui défini les pions par leur valeur et leur appartenance
  */
