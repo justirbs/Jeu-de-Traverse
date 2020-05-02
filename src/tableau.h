@@ -42,7 +42,7 @@ typedef struct{
 } s_coord;
 
 /**
- * \fn s_pion** creerTab2D(int n)
+ * \fn s_pion** creerTab2D(void)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -51,15 +51,14 @@ typedef struct{
  * \brief permet de créer un tableau à deux dimensions
  *
  *
- * \param n la taille du tableau
  * \return tab l'adresse de la première case du tableau crée
  *
  */
-s_pion** creerTab2D(int n);
+s_pion** creerTab2D(void);
 
 
 /**
- * \fn s_pion*** creerTab3D(int tour, int n)
+ * \fn s_pion*** creerTab3D(int tour)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -69,15 +68,14 @@ s_pion** creerTab2D(int n);
  *
  *
  * \param tour le nombre de tour actuel
- * \param n la taille des deux dernières dimensions du tableau
  * \return tab l'adresse de la première case du tableau crée
  *
  */
-s_pion*** creerTab3D(int tour, int n);
+s_pion*** creerTab3D(int tour);
 
 
 /**
- *\fn void initTab(s_pion** tab, int n)
+ *\fn void initTab(s_pion** tab)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -87,13 +85,12 @@ s_pion*** creerTab3D(int tour, int n);
  *
  *
  *\param tab le plateau de jeu
- *\param n la taille du plateau
  *
  */
-void initTab(s_pion** tab, int n);
+void initTab(s_pion** tab);
 
 /**
- *\fn void initLigne(s_pion** tab, int n, int ligne, int joueur)
+ *\fn void initLigne(s_pion** tab, int ligne, int joueur)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -103,15 +100,14 @@ void initTab(s_pion** tab, int n);
  *
  *
  *\param tab le plateau de jeu
- *\param n la taille du plateau
  *\param ligne la ligne sur laquelle on place les pions
  *\param joueur la joueur à qui appartient les pions de cette ligne
  *
  */
-void initLigne(s_pion** tab, int n, int ligne, int joueur);
+void initLigne(s_pion** tab, int ligne, int joueur);
 
 /**
- *\fn void afficherTab(s_pion** tab, int n)
+ *\fn void afficherTab(s_pion** tab)
  *
  *\author Justine Ribas <ribasjusti@eisti.eu>
  *\version 0.1
@@ -121,10 +117,9 @@ void initLigne(s_pion** tab, int n, int ligne, int joueur);
  *
  *
  *\param tab le tableau à afficher
- *\param n la taille du tableau
  *
  */
-void afficherTab(s_pion** tab, int n);
+void afficherTab(s_pion** tab);
 
 
 /**
@@ -144,7 +139,7 @@ char pion(int valeur);
 
 
 /**
- * \fn void enleveCroix(s_pion** tab, int n)
+ * \fn void enleveCroix(s_pion** tab)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -154,14 +149,13 @@ char pion(int valeur);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  *
  */
-void enleveCroix(s_pion** tab, int n);
+void enleveCroix(s_pion** tab);
 
 
 /**
- * \fn s_pion** copieTab2D(s_pion** tab1, int n)
+ * \fn s_pion** copieTab2D(s_pion** tab1)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -171,15 +165,14 @@ void enleveCroix(s_pion** tab, int n);
  *
  *
  * \param tab le tableau à copier
- * \param n la taille du tableau
  * \return la copie du tableau
  *
  */
-s_pion** copieTab2D(s_pion** tab1, int n);
+s_pion** copieTab2D(s_pion** tab1);
 
 
 /**
- * \fn s_pion*** copieTab3D(s_pion*** tab1, int n, int tour)
+ * \fn s_pion*** copieTab3D(s_pion*** tab1, int tour)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -189,16 +182,15 @@ s_pion** copieTab2D(s_pion** tab1, int n);
  *
  *
  * \param tab le tableau à copier
- * \param n la taille du tableau
  * \param tour le nombre de tours
  * \return la copie du tableau
  *
  */
-s_pion*** copieTab3D(s_pion*** tab1, int n, int tour);
+s_pion*** copieTab3D(s_pion*** tab1, int tour);
 
 
 /**
- * \fn s_pion*** agrandiTab(s_pion*** tab1, int tour, int n)
+ * \fn s_pion*** agrandiTab(s_pion*** tab1, int tour)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -209,15 +201,14 @@ s_pion*** copieTab3D(s_pion*** tab1, int n, int tour);
  *
  * \param tab le tableau à agrandir
  * \param tour le nombre de tours
- * \param n la taille du tableau
  * \return le tableau agrandi
  *
  */
-s_pion*** agrandiTab(s_pion*** tab1, int tour, int n);
+s_pion*** agrandiTab(s_pion*** tab1, int tour);
 
 
 /**
- * \fn void freeTab2D(s_pion** tab, int n)
+ * \fn void freeTab2D(s_pion** tab)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -227,15 +218,14 @@ s_pion*** agrandiTab(s_pion*** tab1, int tour, int n);
  *
  *
  * \param tab le tableau à supprimer
- * \param n la taille du tableau
  * \return le tableau agrandi
  *
  */
-void freeTab2D(s_pion** tab, int n);
+void freeTab2D(s_pion** tab);
 
 
 /**
- * \fn void freeTab3D(s_pion*** tab, int n, int tour)
+ * \fn void freeTab3D(s_pion*** tab, int tour)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -245,11 +235,10 @@ void freeTab2D(s_pion** tab, int n);
  *
  *
  * \param tab le tableau à supprimer
- * \param n la taille du tableau
  * \param tour le nombre de tours
  * \return le tableau agrandi
  *
  */
-void freeTab3D(s_pion*** tab, int n, int tour);
+void freeTab3D(s_pion*** tab, int tour);
 
 #endif

@@ -21,209 +21,225 @@ void partieJJ(void){
   s_pion*** jeu; //l'ensembles des plateaux du jeu depuis le début de la partie
   s_pion** plateau; //le plateau du jeux actuel
   int tour; //le nombre de tours depuis le début de la partie
-  int n;
-  n = 10;
   tour = 0;
-  plateau = creerTab2D(n);
-  initTab(plateau, n);
-  jeu = creerTab3D(1, n);
+  plateau = creerTab2D();
+  initTab(plateau);
+  jeu = creerTab3D(1);
   do {
+    //on déroule le tour du joueur 1
     system("clear");
-    afficherTab(plateau,n);
+    afficherTab(plateau);
     printf("\nNuméro du tour : %d\nC'est au tour du Joueur 1 (rouge) de jouer :\n\n", tour);
-    joueurJoue(plateau, n, 1);
+    joueurJoue(plateau, 1);
     if(tour > 1){
-      jeu = agrandiTab(jeu, tour, n);
+      jeu = agrandiTab(jeu, tour);
     }
     tour ++;
-    jeu[tour-1] = copieTab2D(plateau, n);
-    if (aGagne(plateau, n, tour) == 0   &&   !matchNul(jeu, n, tour)){
+    jeu[tour-1] = copieTab2D(plateau);
+    if (aGagne(plateau, tour) == 0   &&   !matchNul(jeu, tour)){
+      //on déroule le tour du joueur 2
       system("clear");
-      afficherTab(plateau,n);
+      afficherTab(plateau);
       printf("\nNuméro du tour : %d\nC'est au tour du Joueur 2 (bleu) de jouer :\n\n", tour);
-      joueurJoue(plateau, n, 2);
-      jeu = agrandiTab(jeu, tour, n);
+      joueurJoue(plateau, 2);
+      jeu = agrandiTab(jeu, tour);
       tour ++;
-      jeu[tour-1] = copieTab2D(plateau, n);;
+      jeu[tour-1] = copieTab2D(plateau);;
     }
-  } while(aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour));
-  if(aGagne(plateau, n, tour) != 0){
-    printf("Le joueur %d a gagné !\n", aGagne(plateau, n, tour));
+  } while(aGagne(plateau, tour) == 0  &&  !matchNul(jeu, tour));
+  if(aGagne(plateau, tour) != 0){
+    printf("Le joueur %d a gagné !\n", aGagne(plateau, tour));
   } else {
     printf("Match nul, c'est la troisième fois que l'on a cette disposition de plateau\n");
   }
-  freeTab2D(plateau, n);
-  freeTab3D(jeu, n, tour);
+  freeTab2D(plateau);
+  freeTab3D(jeu, tour);
 }
 
-
-
-
-
+/*Fonction qui déroule une partie "Joueur-Ordinateur"*/
 void partieJO(void){
-  s_pion*** jeu; //l'ensembles des plateaux du jeu
-  s_pion** plateau; //le plateau du jeux
-  int tour;
-  int n;
-  n = 10;
+  s_pion*** jeu; //l'ensembles des plateaux du jeu depuis le début de la partie
+  s_pion** plateau; //le plateau du jeux actuel
+  int tour; //le nombre de tours depuis le début de la partie
   tour = 0;
-  plateau = creerTab2D(n);
-  initTab(plateau, n);
-  jeu = creerTab3D(1, n);
+  plateau = creerTab2D();
+  initTab(plateau);
+  jeu = creerTab3D(1);
   do {
+    //on déroule le tour du joueur 1
     system("clear");
-    afficherTab(plateau,n);
+    afficherTab(plateau);
     printf("\nC'est au tour du Joueur 1 (en haut) de jouer :\n\n");
-    joueurJoue(plateau, n, 1);
+    joueurJoue(plateau, 1);
     if(tour > 1){
     }
     tour ++;
-    jeu[tour-1] = copieTab2D(plateau, n);
-    if (aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour)){
+    jeu[tour-1] = copieTab2D(plateau);
+    if (aGagne(plateau, tour) == 0  &&  !matchNul(jeu, tour)){
+      //on déroule le tour du joueur 2
       system("clear");
-      afficherTab(plateau, n);
-      ordiJoue(plateau, n, jeu, tour, 2);
-      jeu = agrandiTab(jeu, tour, n);
-      jeu = agrandiTab(jeu, tour, n);
+      afficherTab(plateau);
+      ordiJoue(plateau, jeu, tour, 2);
+      jeu = agrandiTab(jeu, tour);
+      jeu = agrandiTab(jeu, tour);
       tour ++;
-      jeu[tour-1] = copieTab2D(plateau, n);
+      jeu[tour-1] = copieTab2D(plateau);
     }
-  } while(aGagne(plateau, n, tour) == 0   &&   !matchNul(jeu, n, tour));
-  if(aGagne(plateau, n, tour) != 0){
-    printf("Le joueur %d a gagné !\n", aGagne(plateau, n, tour));
+  } while(aGagne(plateau, tour) == 0   &&   !matchNul(jeu, tour));
+  if(aGagne(plateau, tour) != 0){
+    printf("Le joueur %d a gagné !\n", aGagne(plateau, tour));
   } else {
     printf("Match nul, c'est la troisième fois que l'on a cette disposition de plateau\n");
   }
-  freeTab2D(plateau, n);
-  freeTab3D(jeu, n ,tour);
+  freeTab2D(plateau);
+  freeTab3D(jeu ,tour);
 }
 
-
-
+/*Fonction qui déroule une partie "Ordinateur-Ordinateur"*/
 void partieOO(void){
-  s_pion*** jeu; //l'ensembles des plateaux du jeu
-  s_pion** plateau; //le plateau du jeux
-  int tour;
-  int n;
-  n = 10;
+  s_pion*** jeu; //l'ensembles des plateaux du jeu depuis le début de la partie
+  s_pion** plateau; //le plateau du jeux actuel
+  int tour; //le nombre de tours depuis le début de la partie
   tour = 0;
-  plateau = creerTab2D(n);
-  initTab(plateau, n);
-  jeu = creerTab3D(1, n);
+  plateau = creerTab2D();
+  initTab(plateau);
+  jeu = creerTab3D(1);
   do {
+    //on déroule le tour du joueur 1
     system("clear");
-    afficherTab(plateau,n);
+    afficherTab(plateau);
     printf("\nNombre de tours : %d\n", tour);
-    ordiJoue(plateau, n, jeu, tour, 1);
+    ordiJoue(plateau, jeu, tour, 1);
     if(tour > 1){
-      jeu = agrandiTab(jeu, tour, n);
+      jeu = agrandiTab(jeu, tour);
     }
     tour ++;
-    jeu[tour-1] = copieTab2D(plateau, n);
+    jeu[tour-1] = copieTab2D(plateau);
     //sleep(1);
-    if (aGagne(plateau, n, tour) == 0  &&  !matchNul(jeu, n, tour)){
+    if (aGagne(plateau, tour) == 0  &&  !matchNul(jeu, tour)){
+      //on déroule le tour du joueur 2
       system("clear");
-      afficherTab(plateau, n);
+      afficherTab(plateau);
       printf("\nNombre de tours : %d\n", tour);
-      ordiJoue(plateau, n, jeu, tour, 2);
-      jeu = agrandiTab(jeu, tour, n);
+      ordiJoue(plateau, jeu, tour, 2);
+      jeu = agrandiTab(jeu, tour);
       tour ++;
-      jeu[tour-1] = copieTab2D(plateau, n);
+      jeu[tour-1] = copieTab2D(plateau);
       //sleep(1);
     }
-    printf("A gagner : %d\n", aGagne(plateau, n, tour));
-  } while(aGagne(plateau, n, tour) == 0   &&   !matchNul(jeu, n, tour));
+    printf("A gagner : %d\n", aGagne(plateau, tour));
+  } while(aGagne(plateau, tour) == 0   &&   !matchNul(jeu, tour));
   system("clear");
-  afficherTab(plateau, n);
+  afficherTab(plateau);
   printf("\nNombre de tours : %d\n", tour);
-  if(aGagne(plateau, n, tour) != 0){
-    printf("Le joueur %d a gagné !\n", aGagne(plateau, n, tour));
+  if(aGagne(plateau, tour) != 0){
+    printf("Le joueur %d a gagné !\n", aGagne(plateau, tour));
   } else {
     printf("Match nul, c'est la troisième fois que l'on a cette disposition de plateau\n");
   }
-  freeTab2D(plateau, n);
-  freeTab3D(jeu, n ,tour);
+  freeTab2D(plateau);
+  freeTab3D(jeu ,tour);
 }
 
-
-
-void joueurJoue(s_pion** tab, int n, int joueur){
-  s_coord pion;
+/*Fonction qui fait jouer un joueur*/
+void joueurJoue(s_pion** tab, int joueur){
+  s_coord pion; //le pion que le joueur va déplacer
   int estPossible; //variable booléenne qui indique si un déplacement est possible
-  int aContinue; //variable bouléenne qui indique ou non si le joueur continue de chercher un pion jouable
-  aContinue = 1;
-  do {
-    do {
-      do {
-        printf("Veuillez entrer la case du pion que vous voulez déplacer (ligne puis colonne) : \n");
-        pion.ligne = saisirEntier();
-        pion.colonne = saisirEntier();
-        //la case doit exister sur le plateau
-      } while((pion.ligne < 0 || pion.ligne >= n) || (pion.colonne < 0 || pion.colonne >= n));
-      //la case doit contenir un pion du joueur
-    } while(tab[pion.ligne][pion.colonne].joueur != joueur);
-    //le pion doit pouvoir se déplacer
-    estPossible = tourJoueur(tab, n, pion, joueur);
-    aContinue = 0;
-    if(estPossible == 0){
-      printf("Votre pion ne peut pas être déplacé...\nSi vous voulez en essayer un autre, écrivez 1. Sinon écrivez 0.\n");
-      do {
-        aContinue = saisirEntier();
-      } while (aContinue != 1  &&  aContinue != 0);
-    }
-  } while(aContinue == 1);
-}
-
-
-void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur){
-  s_coord* pionDeb = malloc(sizeof(s_coord));
-  s_coord* pionFin = malloc(sizeof(s_coord));
-  s_coord pionTemp;
-  int i;
-  int j;
-  int estPossible;
-  int gain;
+  s_coord pionTemp; //variable temporaire
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
   estPossible = 0;
-  for(i=0; i<n; i++){
-    for(j=0; j<n; j++){
+  //on regarde si un déplacement est possible
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
       if (tab[i][j].joueur == joueur){
         pionTemp.ligne = i;
         pionTemp.colonne = j;
-        if (deplacementsPossibles(tab, n, pionTemp)){
+        if (deplacementsPossibles(tab, pionTemp)){
           estPossible = 1;
-          enleveCroix(tab, n);
+          enleveCroix(tab);
         }
       }
     }
   }
   if (estPossible){
-    gain = minMax(tab, n, jeu, tour, 2, pionDeb, pionFin, joueur, 1);
+    do{
+      //le joueur choisi son pion
+      pion = choixPion(tab, joueur);
+      //le pion doit pouvoir se déplacer
+      estPossible = tourJoueur(tab, pion, joueur);
+    } while(!estPossible);
+  }
+}
+
+/*Fonction qui fait jouer un ordi*/
+void ordiJoue(s_pion** tab, s_pion*** jeu, int tour, int joueur){
+  s_coord* pionDeb = malloc(sizeof(s_coord)); //le pion à déplacer
+  s_coord* pionFin = malloc(sizeof(s_coord)); //la case où on le déplace
+  s_coord pionTemp; //variable temporaire
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  int estPossible; //variable bouléenne qui indique si un déplacement est possible
+  int gain; //gain retourné par minMax
+  estPossible = 0;
+  //on regarde si un déplacement est possible
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
+      if (tab[i][j].joueur == joueur){
+        pionTemp.ligne = i;
+        pionTemp.colonne = j;
+        if (deplacementsPossibles(tab, pionTemp)){
+          estPossible = 1;
+          enleveCroix(tab);
+        }
+      }
+    }
+  }
+  if (estPossible){
+    //le pion à déplacer et son déplacement son choisi selon minMax
+    gain = minMax(tab, jeu, tour, 2, pionDeb, pionFin, joueur, 1);
     deplacerPion(tab, *pionDeb, joueur, *pionFin);
     gain++;
   }
-  enleveCroix(tab, n);
+  enleveCroix(tab);
 }
 
-
-
-int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur){
+/*Fonction qui permet le tour d'un joueur*/
+int tourJoueur(s_pion** tab, s_coord pion, int joueur){
 	int estDeplace; //variable booléenne qui indique si le pion est déplacé
   s_coord pion2; //la future case du pion si il est déplacé
 	estDeplace = 0;
   //on regarde si un déplacement est possible
-	if (deplacementsPossibles(tab, n, pion)) {
+	if (deplacementsPossibles(tab, pion)) {
     estDeplace = 1;
     system("clear");
-    afficherTab(tab,n);
-    pion2 = choixCase(tab, n);
+    afficherTab(tab);
+    //on choisi la future case du pion
+    pion2 = choixCase(tab);
+    //on déplace le pion
     deplacerPion(tab, pion, joueur, pion2);
-    enleveCroix(tab, n);
+    enleveCroix(tab);
   }
 	return(estDeplace);
 }
 
+/*Fonction pour choisir un pion à déplacer*/
+s_coord choixPion(s_pion** tab, int joueur){
+  s_coord pion; //le pion choisi
+  do {
+    do {
+      printf("Veuillez entrer la case du pion que vous voulez déplacer (ligne puis colonne) : \n");
+      pion.ligne = saisirEntier();
+      pion.colonne = saisirEntier();
+      //la case doit exister sur le plateau
+    } while((pion.ligne < 0 || pion.ligne >= N) || (pion.colonne < 0 || pion.colonne >= N));
+    //la case doit contenir un pion du joueur
+  } while(tab[pion.ligne][pion.colonne].joueur != joueur);
+  return(pion);
+}
 
-s_coord choixCase(s_pion** tab, int n){
+/*Fonction pour choisir la future case d'un pion à déplacer*/
+s_coord choixCase(s_pion** tab){
   s_coord pion2; //la future case du pion si il est déplacé
   do {
     do {
@@ -231,37 +247,37 @@ s_coord choixCase(s_pion** tab, int n){
       pion2.ligne = saisirEntier();
       pion2.colonne = saisirEntier();
       //la future case doit faire partie du plateau
-    } while((pion2.ligne < 0 || pion2.ligne >= n) || (pion2.colonne < 0 || pion2.colonne >= n));
+    } while((pion2.ligne < 0 || pion2.ligne >= N) || (pion2.colonne < 0 || pion2.colonne >= N));
     //la future case doit être un déplacement possible
   } while(tab[pion2.ligne][pion2.colonne].valeur != -1);
   return(pion2);
 }
 
-
-int aGagne(s_pion** tab, int n, int tour)
+/*Fonction pour vérifier si un des deux joueur a gagné*/
+int aGagne(s_pion** tab, int tour)
 {
-	int int_i;
-	int gagne1 = 1;
-	int gagne2 = 1;
-  int aGagne;
+	int int_i; //iterrateur de boucle
+	int gagne1 = 1;  //variable booléenne qui indique si le joueur1 a gagné
+	int gagne2 = 1; //variable booléenne qui indique si le joueur2 a gagné
+  int aGagne; //variable qui indique quel joueur a gagné
   //un joueur n'a pas gagné si tous ses pions ne sont pas sur la ligne d'arrivé
-	for (int_i = 1; int_i < n-1; int_i++)
+	for (int_i = 1; int_i < N-1; int_i++)
 	{
 		if (tab[0][int_i].joueur != 2){
 			gagne2 = 0;
 		}
-		if (tab[n-1][int_i].joueur != 1){
+		if (tab[N-1][int_i].joueur != 1){
 			gagne1 = 0;
 		}
 	}
   //si au tour 30 un joueur a des pions sur sa ligne de départ, l'adversaire gagne
   if (tour>30){
-  	for (int_i = 1; int_i < n-1; int_i++)
+  	for (int_i = 1; int_i < N-1; int_i++)
   	{
   		if (tab[0][int_i].joueur == 1){
   			gagne2 = 1;
   		}
-  		if (tab[n-1][int_i].joueur == 2){
+  		if (tab[N-1][int_i].joueur == 2){
   			gagne1 = 1;
   		}
   	}
@@ -278,13 +294,13 @@ int aGagne(s_pion** tab, int n, int tour)
   return(aGagne);
 }
 
-
-int matchNul(s_pion*** jeu, int n, int tour)
+/*Fonction pour vérifier si il y a un match nul*/
+int matchNul(s_pion*** jeu, int tour)
 {
-	int int_i;
-	int int_j;
-	int int_k;
-	int int_l;
+	int int_i; //iterrateur de boucle
+	int int_j; //iterrateur de boucle
+	int int_k; //iterrateur de boucle
+	int int_l; //iterrateur de boucle
 	int identique; //vrai si deux plateau sont identiques
 	int plat_identique; //le compteur de plateau identique
 	int matchnul; //vrai si le match est nul
@@ -297,9 +313,9 @@ int matchNul(s_pion*** jeu, int n, int tour)
         //Verrifier si les deux plateaux courants sont identiques
   			identique = 1;
         int_k = 0;
-  			while (identique == 1 && int_k < n){
+  			while (identique == 1 && int_k < N){
           int_l = 0;
-  				while (identique == 1 && int_l < n){
+  				while (identique == 1 && int_l < N){
   					if ( (jeu[int_i][int_k][int_l].valeur != jeu[int_j][int_k][int_l].valeur)  || (jeu[int_i][int_k][int_l].joueur != jeu[int_j][int_k][int_l].joueur)){
   						identique = 0;
   					}
@@ -321,57 +337,59 @@ int matchNul(s_pion*** jeu, int n, int tour)
 	return(matchnul);
 }
 
-
-int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax){
-  int i;
-  int j;
-  int k;
-  int l;
-  int gainCourant;
-  int gainResultat;
-  s_pion** copiePlateau;
-  s_pion*** copieJeu;
-  s_coord* pionDebTemp = malloc(sizeof(s_coord));
-  s_coord* pionFinTemp = malloc(sizeof(s_coord));
+/*Fonction pour optimiser les coups de l'IA*/
+int minMax(s_pion** plateau, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax){
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
+  int k; //iterrateur de boucle
+  int l; //iterrateur de boucle
+  int gainCourant; //le gain de la branche courante
+  int gainResultat; //le gain maximum
+  s_pion** copiePlateau; //la copie du plateau
+  s_pion*** copieJeu; //la copie du jeu
+  s_coord* pionDebTemp = malloc(sizeof(s_coord)); //variable temporaires pour simuler les coups de l'adversaire
+  s_coord* pionFinTemp = malloc(sizeof(s_coord)); //variable temporaires pour simuler les coups de l'adversaire
   gainResultat = -2000;
-  enleveCroix(plateau, n);
-  if(profondeur == 0 || aGagne(plateau, n, tour) != 0 || matchNul(jeu, n, tour)){
-    gainResultat = evaluerGain(plateau, n, jeu, tour, joueur);
+  enleveCroix(plateau);
+  //condition d'arrêt
+  if(profondeur == 0 || aGagne(plateau, tour) != 0 || matchNul(jeu, tour)){
+    gainResultat = evaluerGain(plateau, jeu, tour, joueur);
   } else {
     //pour tous les pions de l'IA
-    for(i=0; i<n; i++){
-      for(j=0; j<n; j++){
+    for(i=0; i<N; i++){
+      for(j=0; j<N; j++){
         if(plateau[i][j].joueur == joueur){
-          enleveCroix(plateau, n);
+          enleveCroix(plateau);
           pionDebTemp->ligne = i;
           pionDebTemp->colonne = j;
           //Afficher les déplacements possibles
-          if(deplacementsPossibles(plateau, n, *pionDebTemp)){
+          if(deplacementsPossibles(plateau, *pionDebTemp)){
             //Pour chaque déplacement possible
-            for(k=0; k<n; k++){
-              for(l=0; l<n; l++){
+            for(k=0; k<N; k++){
+              for(l=0; l<N; l++){
                 if(plateau[k][l].valeur == -1){
                   //on copie le plateau et le jeu
-                  copiePlateau = copieTab2D(plateau, n);
-                  copieJeu = copieTab3D(jeu, n, tour);
-                  enleveCroix(copiePlateau, n);
+                  copiePlateau = copieTab2D(plateau);
+                  copieJeu = copieTab3D(jeu, tour);
+                  enleveCroix(copiePlateau);
                   pionDebTemp->ligne = i;
                   pionDebTemp->colonne = j;
                   pionFinTemp->ligne = k;
                   pionFinTemp->colonne = l;
                   //printf("\n");
-                  //afficherTab(copiePlateau, n);
+                  //afficherTab(copiePlateau);
                   //sleep(1);
                   //L'IA JOUE
                   deplacerPion(copiePlateau, *pionDebTemp, joueur, *pionFinTemp);
                   if(tour > 1){
-                    copieJeu = agrandiTab(copieJeu, tour, n);
+                    copieJeu = agrandiTab(copieJeu, tour);
                   }
-                  copieJeu[tour] = copieTab2D(copiePlateau, n);
+                  copieJeu[tour] = copieTab2D(copiePlateau);
                   //on simule le coup de l'utilisateur
-                  gainCourant = minMax(copiePlateau, n, copieJeu, tour+1, profondeur-1, pionDebTemp, pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
-                  freeTab2D(copiePlateau, n);
-                  freeTab3D(copieJeu, n, tour);
+                  gainCourant = minMax(copiePlateau, copieJeu, tour+1, profondeur-1, pionDebTemp, pionFinTemp,(joueur == 1 ? 2 : 1), !evalMax);
+                  freeTab2D(copiePlateau);
+                  freeTab3D(copieJeu, tour);
+                  //on prend le maximum des gains de l'IA ou le minimum de son adversaire
                   if((evalMax && gainCourant > gainResultat) || (!evalMax && gainCourant < gainResultat) || gainResultat == -2000){
                     gainResultat = gainCourant;
                     pionDeb->ligne = i;
@@ -389,25 +407,25 @@ int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_c
   }
   free(pionDebTemp);
   free(pionFinTemp);
-  enleveCroix(plateau, n);
+  enleveCroix(plateau);
   //sleep(1);
   //printf("\nPour le joueur %d, on déplace le pion %d;%d à la case %d;%d \nLe gain est %d\n\n", joueur, pionDeb->ligne, pionDeb->colonne, pionFin->ligne, pionFin->colonne, gainMax );
   return(gainResultat);
 }
 
 
-int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur){
-  int gain;
-  if (aGagne(plateau, n, tour) == joueur){
+int evaluerGain(s_pion** plateau, s_pion*** jeu, int tour, int joueur){
+  int gain; //le gain selon l'état du platau
+  if (aGagne(plateau, tour) == joueur){
     gain = 1000;
   } else {
-    if (aGagne(plateau, n, tour) != joueur  &&  aGagne(plateau, n, tour) != 0){
+    if (aGagne(plateau, tour) != joueur  &&  aGagne(plateau, tour) != 0){
       gain = -1000;
     } else {
-      if (matchNul(jeu, n, tour)){
+      if (matchNul(jeu, tour)){
         gain = 0;
       } else {
-        gain = calculGain(plateau, n, joueur);
+        gain = calculGain(plateau, joueur);
       }
     }
   }
@@ -415,19 +433,19 @@ int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur){
 }
 
 
-int calculGain(s_pion** plateau, int n, int joueur){
-  int somme;
-  int i;
-  int j;
+int calculGain(s_pion** plateau, int joueur){
+  int somme; //la somme des distances
+  int i; //iterrateur de boucle
+  int j; //iterrateur de boucle
   somme = 0;
-  for(i=0; i<n; i++){
-    for(j=0; j<n; j++){
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
       //on ajoute les distance des pion de l'IA depuis sa ligne d'arrivée
       if (plateau[i][j].joueur == joueur){
         if (joueur == 1){
           somme += (i==0 ? -100 : i);
         } else {
-          somme += (i==9 ? -100 : n - 1 - i);
+          somme += (i==9 ? -100 : N - 1 - i);
         }
       }
       //on retire les distance des pion de l'adversaire depuis sa ligne d'arrivée
@@ -435,7 +453,7 @@ int calculGain(s_pion** plateau, int n, int joueur){
         if (joueur == 1){
           somme -= i;
         } else {
-          somme -= n - 1 - i;
+          somme -= N - 1 - i;
         }
       }
     }

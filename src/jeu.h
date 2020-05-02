@@ -61,7 +61,7 @@ void partieOO(void);
 
 
 /**
- * \fn void joueurJoue(s_pion** tab, int n, int joueur)
+ * \fn void joueurJoue(s_pion** tab, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -71,15 +71,14 @@ void partieOO(void);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  * \param joueur le joueur qui joue
  *
  */
-void joueurJoue(s_pion** tab, int n, int joueur);
+void joueurJoue(s_pion** tab, int joueur);
 
 
 /**
- * \fn void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur)
+ * \fn void ordiJoue(s_pion** tab, s_pion*** jeu, int tour, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -89,17 +88,34 @@ void joueurJoue(s_pion** tab, int n, int joueur);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  * \param jeu l'état du jeu
  * \param tour le nombre de tour depuis le début de la partie
  * \param joueur le joueur qui joue
  *
  */
-void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur);
+void ordiJoue(s_pion** tab, s_pion*** jeu, int tour, int joueur);
 
 
 /**
- * \fn s_coord choixCase(s_pion** tab, int n)
+ * \fn s_coord choixPion(s_pion** tab, int joueur)
+ *
+ * \author Justine Ribas <ribasjusti@eisti.eu>
+ * \version 0.1
+ * \date 27 avril 2020
+ *
+ * \brief permet de choisir le pion que l'on souhaite déplacer
+ *
+ *
+ * \param tab le plateau de jeu
+ * \param joueur le joueur qui choisi
+ * \return les coordonées de la nouvelle case
+ *
+ */
+s_coord choixPion(s_pion** tab, int joueur);
+
+
+/**
+ * \fn s_coord choixCase(s_pion** tab)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -109,15 +125,14 @@ void ordiJoue(s_pion** tab, int n, s_pion*** jeu, int tour, int joueur);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  * \return les coordonées de la nouvelle case
  *
  */
-s_coord choixCase(s_pion** tab, int n);
+s_coord choixCase(s_pion** tab);
 
 
 /**
- * \fn int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur)
+ * \fn int tourJoueur(s_pion** tab, s_coord pion, int joueur)
  *
  * \author Vincent Donney et Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -127,17 +142,16 @@ s_coord choixCase(s_pion** tab, int n);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  * \param pion les coordonnées de la case choisie
  * \param joueur le joueur qui joue
  * \return 1 si le déplacement est fait, 0 si il est impossible
  *
  */
-int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur);
+int tourJoueur(s_pion** tab, s_coord pion, int joueur);
 
 
 /**
- * \fn int aGagne(s_pion** tab, int n, int tour)
+ * \fn int aGagne(s_pion** tab, int tour)
  *
  * \author Vincent Donney <donneyvinc@eisti.eu>
  * \version 0.1
@@ -147,16 +161,15 @@ int tourJoueur(s_pion** tab, int n, s_coord pion, int joueur);
  *
  *
  * \param tab le plateau de jeu
- * \param n la taille du plateau
  * \param tour le numéro du tour en cours
  * \return 1 si un joueur a gagné, 0 sinon
  *
  */
-int aGagne(s_pion **tab, int n, int tour);
+int aGagne(s_pion **tab, int tour);
 
 
 /**
- * \fn int matchNul(s_pion*** jeu, int n, int tour)
+ * \fn int matchNul(s_pion*** jeu, int tour)
  *
  * \author Vincent Donney <donneyvinc@eisti.eu>
  * \version 0.1
@@ -166,16 +179,15 @@ int aGagne(s_pion **tab, int n, int tour);
  *
  *
  * \param jeu l'ensemble des plateaux de jeu depuis le début de la partie
- * \param n la taille du plateau
  * \param tour le numéro du tour en cours
  * \return 1 si il y a match nul, 0 sinon
  *
  */
-int matchNul(s_pion*** jeu, int n, int tour);
+int matchNul(s_pion*** jeu, int tour);
 
 
 /**
- * \fn void tourMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur)
+ * \fn int minMax(s_pion** plateau, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -185,20 +197,21 @@ int matchNul(s_pion*** jeu, int n, int tour);
  *
  *
  * \param plateau le plateau de jeu
- * \param n la taille du plateau
  * \param jeu l'état du jeu
  * \param tour le nombre de tour depuis le début de la partie
  * \param profondeur la profondeur de cette IA
  * \param pionDeb le pion que l'ordi va déplacer
  * \param pionFin la case où sera déplacé le pion
  * \param joueur le joueur qui joue
+ * \param evalMax bouléen qui indique si on cherche le minimum ou le maximum
+ * \return le gain optimal
  *
  */
- int minMax(s_pion** plateau, int n, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax);
+ int minMax(s_pion** plateau, s_pion*** jeu, int tour, int profondeur, s_coord* pionDeb, s_coord* pionFin, int joueur, int evalMax);
 
 
 /**
- * \fn int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur)
+ * \fn int evaluerGain(s_pion** plateau, s_pion*** jeu, int tour, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -208,18 +221,17 @@ int matchNul(s_pion*** jeu, int n, int tour);
  *
  *
  * \param plateau le plateau de jeu
- * \param n la taille du plateau
  * \param jeu l'état du jeu
  * \param tour le nombre de tour depuis le début de la partie
  * \param joueur le joueur qui joue
  * \return le gain
  *
  */
-int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur);
+int evaluerGain(s_pion** plateau, s_pion*** jeu, int tour, int joueur);
 
 
 /**
- * \fn int calculGain(s_pion** plateau, int n, int joueur)
+ * \fn int calculGain(s_pion** plateau, int joueur)
  *
  * \author Justine Ribas <ribasjusti@eisti.eu>
  * \version 0.1
@@ -229,14 +241,11 @@ int evaluerGain(s_pion** plateau, int n, s_pion*** jeu, int tour, int joueur);
  *
  *
  * \param plateau le plateau de jeu
- * \param n la taille du plateau
- * \param jeu l'état du jeu
- * \param tour le nombre de tour depuis le début de la partie
  * \param joueur le joueur qui joue
  * \return la somme
  *
  */
-int calculGain(s_pion** plateau, int n, int joueur);
+int calculGain(s_pion** plateau, int joueur);
 
 
 #endif

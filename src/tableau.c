@@ -16,17 +16,17 @@
 
 // Codes des fonctions
 
-s_pion** creerTab2D(int n)
+s_pion** creerTab2D(void)
 {
   s_pion** tab; //tableau d'entiers
   int i; //iterrateur de boucle
-  tab = malloc(n*sizeof(s_pion*));
+  tab = malloc(N*sizeof(s_pion*));
   if(tab==NULL){
     fprintf(stderr, "problème d'alloc\n");
     exit(1);
   }
-  for(i=0; i<n; i++){
-    tab[i] = malloc(n*sizeof(s_pion));
+  for(i=0; i<N; i++){
+    tab[i] = malloc(N*sizeof(s_pion));
     if(tab==NULL){
     fprintf(stderr, "problème d'alloc\n");
     exit(1);
@@ -36,7 +36,7 @@ s_pion** creerTab2D(int n)
 }
 
 
-s_pion*** creerTab3D(int tour, int n){
+s_pion*** creerTab3D(int tour){
   s_pion*** tab; //tableau d'entiers
   int i; //iterrateur de boucle
   tab = malloc(tour*sizeof(s_pion**));
@@ -45,65 +45,65 @@ s_pion*** creerTab3D(int tour, int n){
     exit(1);
   }
   for(i=0; i<tour; i++){
-    tab[i] = creerTab2D(n);
+    tab[i] = creerTab2D();
   }
   return(tab);
 }
 
 
-void initTab(s_pion** tab, int n){
+void initTab(s_pion** tab){
   int i; //iterrateur de boucle
   int j; //iterrateur de boucle
-  for(i=0; i<n; i++){
-    for(j=0; j<n; j++){
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
       tab[i][j].valeur = 0;
       tab[i][j].joueur = 0;
     }
   }
-  initLigne(tab, n, 0, 1);
-  initLigne(tab, n, n-1, 2);
+  initLigne(tab, 0, 1);
+  initLigne(tab, N-1, 2);
 }
 
 
-void initLigne(s_pion** tab, int n, int ligne, int joueur){
+void initLigne(s_pion** tab, int ligne, int joueur){
   //Insertion des ■
   tab[ligne][1].valeur = 1;
-  tab[ligne][n-2].valeur = 1;
+  tab[ligne][N-2].valeur = 1;
   tab[ligne][1].joueur = joueur;
-  tab[ligne][n-2].joueur = joueur;
+  tab[ligne][N-2].joueur = joueur;
   //Insertion des ▲
   tab[ligne][2].valeur = 2;
-  tab[ligne][n-3].valeur = 2;
+  tab[ligne][N-3].valeur = 2;
   tab[ligne][2].joueur = joueur;
-  tab[ligne][n-3].joueur = joueur;
+  tab[ligne][N-3].joueur = joueur;
   //Insertion des ♦
   tab[ligne][3].valeur = 3;
-  tab[ligne][n-4].valeur = 3;
+  tab[ligne][N-4].valeur = 3;
   tab[ligne][3].joueur = joueur;
-  tab[ligne][n-4].joueur = joueur;
+  tab[ligne][N-4].joueur = joueur;
   //Insertion des •
   tab[ligne][4].valeur = 4;
-  tab[ligne][n-5].valeur = 4;
+  tab[ligne][N-5].valeur = 4;
   tab[ligne][4].joueur = joueur;
-  tab[ligne][n-5].joueur = joueur;
+  tab[ligne][N-5].joueur = joueur;
 }
 
 
-void afficherTab(s_pion** tab, int n){
+void afficherTab(s_pion** tab){
   int i; //iterrateur de boucle
   int j; //iterrateur de boucle
   int k; //iterrateur de boucle
   printf(" ");
-  for(k=0; k<n; k++){
+  for(k=0; k<N; k++){
     printf(" %d  ", k);
   }
   printf("\n");
-  for(i=0; i<n; i++){
-    for(k=0; k<n; k++){
+  for(i=0; i<N; i++){
+    for(k=0; k<N; k++){
       printf("----");
     }
     printf("-\n|");
-    for(j=0; j<n; j++){
+    for(j=0; j<N; j++){
       switch (tab[i][j].joueur){
         case 0 :
             printf(" %c |", pion(tab[i][j].valeur));
@@ -127,7 +127,7 @@ void afficherTab(s_pion** tab, int n){
     }
     printf(" %d\n", i);
   }
-  for(k=0; k<n; k++){
+  for(k=0; k<N; k++){
     printf("----");
   }
   printf("-\n");
@@ -163,11 +163,11 @@ char pion(int valeur){
 }
 
 
-void enleveCroix(s_pion** tab, int n){
+void enleveCroix(s_pion** tab){
   int i;
   int j;
-  for(i=0; i<n; i++){
-    for(j=0; j<n; j++){
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
       if(tab[i][j].valeur == -1){
         tab[i][j].valeur = 0;
       }
@@ -176,13 +176,13 @@ void enleveCroix(s_pion** tab, int n){
 }
 
 
-s_pion** copieTab2D(s_pion** tab1, int n){
+s_pion** copieTab2D(s_pion** tab1){
   int i;
   int j;
   s_pion** tab2; //la copie
-  tab2 = creerTab2D(n);
-  for(i=0; i<n; i++){
-    for(j=0; j<n; j++){
+  tab2 = creerTab2D();
+  for(i=0; i<N; i++){
+    for(j=0; j<N; j++){
       tab2[i][j] = tab1[i][j];
     }
   }
@@ -190,42 +190,42 @@ s_pion** copieTab2D(s_pion** tab1, int n){
 }
 
 
-s_pion*** copieTab3D(s_pion*** tab1, int n, int tour){
+s_pion*** copieTab3D(s_pion*** tab1, int tour){
   int i;
   s_pion*** tab2;
-  tab2 = creerTab3D(tour, n);
+  tab2 = creerTab3D(tour);
   for(i=0; i<tour; i++){
-    tab2[i] = copieTab2D(tab1[i], n);
+    tab2[i] = copieTab2D(tab1[i]);
   }
   return(tab2);
 }
 
 
-s_pion*** agrandiTab(s_pion*** tab1, int tour, int n){
+s_pion*** agrandiTab(s_pion*** tab1, int tour){
   s_pion*** tab2; //le tableau agrandi
   int i;
-  tab2 = creerTab3D(tour+1, n);
+  tab2 = creerTab3D(tour+1);
   for(i=0; i<tour; i++){
-      tab2[i] = copieTab2D(tab1[i], n);
+      tab2[i] = copieTab2D(tab1[i]);
   }
-  freeTab3D(tab1, n, tour);
+  freeTab3D(tab1, tour);
   return(tab2);
 }
 
 
-void freeTab2D(s_pion** tab, int n){
+void freeTab2D(s_pion** tab){
   int i; //iterrateur de boucle
-  for(i=0; i<n; i++){
+  for(i=0; i<N; i++){
     free(tab[i]);
   }
   free(tab);
 }
 
 
-void freeTab3D(s_pion*** tab, int n, int tour){
+void freeTab3D(s_pion*** tab, int tour){
   int i; //iterrateur de boucle
   for(i=0; i<tour; i++){
-    freeTab2D(tab[i], n);
+    freeTab2D(tab[i]);
   }
   free(tab);
 }
