@@ -17,6 +17,7 @@
 #include "tableau.h"
 #include "saisie.h"
 #include "deplacement.h"
+#include <unistd.h>
 
 
 /**
