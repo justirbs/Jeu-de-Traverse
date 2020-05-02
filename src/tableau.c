@@ -109,12 +109,14 @@ void afficherTab(s_pion** tab){
             printf(" %c |", pion(tab[i][j].valeur));
           break;
         case 1 :
+          //affichage des pions en rouge pour le joueur 1
           printf("\033[0;31m");
           printf(" %c", pion(tab[i][j].valeur));
           printf("\033[0m");
           printf(" |");
           break;
         case 2 :
+          //affichage des pions en bleu pour le joueur 2
           printf("\033[0;34m");
           printf(" %c", pion(tab[i][j].valeur));
           printf("\033[0m");
