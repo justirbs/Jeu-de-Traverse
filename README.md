@@ -1,9 +1,9 @@
 # Jeu de Traverse
 
 ## Arborescence du projet 
-Dans `/bin` se trouvent les fichiers objets servant à la compilation
-Dans `/doc` se trouve la documentation Doxygen
-Dans `/src` se trouvent tous les fichiers .c et .h contenant le code source
+- Dans `/bin` se trouvent les fichiers objets servant à la compilation
+- Dans `/doc` se trouve la documentation Doxygen
+- Dans `/src` se trouvent tous les fichiers .c et .h contenant le code source
 
 ## Compilation 
 Pour compiler le programme il faut exécuter la commande suivante à la racine du projet
